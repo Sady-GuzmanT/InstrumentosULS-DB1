@@ -8,8 +8,9 @@ import psycopg2
 
 
 # TODO ---> # Implementar botones predeterminados con consultas relevantes.
-            # Implementar barra/boton de Query.
+            # Implementar barra/boton de Query. --> LISTO
             # Arreglar ancho dinamico columnas.
+            # Eliminar primera columna vacia. --> LISTO
 
 # Datos de DB/VPN
 connection = psycopg2.connect(
@@ -24,7 +25,6 @@ connection = psycopg2.connect(
 crsr = connection.cursor()
 
 # Cuando se usa BOTON 'execute query' en UI, Se escribe 'log' en terminal.
-# TODO: Implementar funcionalidad junto a barra de Query.
 def execute_query():
     # Recupera string de entry query_entry
     query = query_entry.get()
@@ -49,10 +49,9 @@ def execute_query():
 
 
     
-    
-    
 
 # Muestra resultados eN UI.
+# TODO ?: Ajustar Columna a ancho de contenido
 def display_results(results):
     # Limpia el resultado anterior
     result_tree.delete(*result_tree.get_children())
@@ -83,13 +82,13 @@ query_entry.grid(row=0, column=0, padx=10, pady=10, columnspan=2)
 
 # Btn 'Execute Query'
 # TODO: Hacer que tome string actual de 'query_entry' barra input y lo pase como Query.
-execute_button = ttk.Button(root, text="Execute Query", command=execute_query)
+execute_button = ttk.Button(root, text="Hacer Consulta", command=execute_query)
 execute_button.grid(row=0, column=2, padx=10, pady=10)
 
 
 # Resultados en tabla.
 # TODO: Hacer que las columnas se adapten bien a el largo del contenido. A veces se sale de la pantalla
-result_tree = ttk.Treeview(root)
+result_tree = ttk.Treeview(root, show="headings")
 result_tree.grid(row=1, column=0, padx=10, pady=10, columnspan=3)
 
 
