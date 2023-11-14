@@ -7,12 +7,18 @@ import psycopg2
 #from config import config
 
 
-# TODO ---> # Implementar botones predeterminados con consultas relevantes.
+''' TODO--> # Mejorar metodo de Query para usuario
+                - Implementar botones predeterminados con consultas relevantes.
+                - Implementar ComboBox para que usuario eliga usando Mouse lo que quiere
             # Implementar barra/boton de Query. --> LISTO
-            # Arreglar ancho dinamico columnas.
+            # Arreglar ancho dinamico columnas. --> LISTO
             # Eliminar primera columna vacia. --> LISTO
+            # Login dentro de la APP. Por ahora se ponen los datos en bloque de codigo usando strings
+'''
 
-# Datos de DB/VPN
+### Datos de DB/VPN
+'''TODO: Funcion para conectar a cualquier SV. No tener que escribrir 
+            datos en codigo, Login dentro de App.'''
 connection = psycopg2.connect(
     host="10.4.3.195", # PUERTO 5432
     database="instrumentos",
@@ -21,16 +27,21 @@ connection = psycopg2.connect(
 )
 
 
+
 # Se crea cursor
 crsr = connection.cursor()
 
-# Cuando se usa BOTON 'execute query' en UI, Se escribe 'log' en terminal.
+# Cuando se usa BOTON 'execute query' en UI, Se escribe proceso  en terminal.
+''' TODO: Mejora para usuario en Query
+    Deberia tomar query de barra input 'query entry' LISTO - 
+    O de Botones con 'consulta relevantes', Tambien usar ComboBox (Pendiente) '''
+        
 def execute_query():
     # Recupera string de entry query_entry
     query = query_entry.get()
     
     try:
-        print("TERMINAL rgt>> Executing query...")
+        print("TERMINAL rgt>> Executing query 2...")
         # --> De aqui para abajo es lo mismo que en 1er bloque TRY EXCEPT
         # Ejec Query
         crsr.execute(query)
@@ -50,8 +61,7 @@ def execute_query():
 
     
 
-# Muestra resultados eN UI.
-# TODO ?: Ajustar Columna a ancho de contenido
+# Muestra resultados en UI.
 def display_results(results):
     # Limpia el resultado anterior
     result_tree.delete(*result_tree.get_children())
@@ -87,14 +97,14 @@ execute_button.grid(row=0, column=2, padx=10, pady=10)
 
 
 # Resultados en tabla.
-# TODO: Hacer que las columnas se adapten bien a el largo del contenido. A veces se sale de la pantalla
+'''TODO: Hacer que las columnas se adapten bien a largo del contenido.
+         A veces se sale de la pantalla. '''
 result_tree = ttk.Treeview(root, show="headings")
 result_tree.grid(row=1, column=0, padx=10, pady=10, columnspan=3)
 
-
-# Bloque de Query. Por ahora esta en 'duro'
-# TODO: Deberia tomar query de barra input 'query entry' o de Botones con 'consulta relevantes' (Pendientes)
-
+''' Este bloque TRY se ejecuta cuando se inicia el programa, No se que hacer con esto.
+    Por ahora queda comentado.'''
+''' Primer bloque TRY comentado
 try:
     # Ejecuta la Query. En duro por ahora.
     query2 = query_entry.get()
@@ -117,7 +127,7 @@ except Exception as error:
 finally:
     # no hace nada por ahora.
     print('FINALLY rgt>>')
-    
+''' 
     
 # Inicia y refresca la ventana de la UI.
 root.mainloop()
@@ -125,4 +135,3 @@ root.mainloop()
 # Cierra la connection. No estoy seguro si esta es la posicion correcta para esto.
 crsr.close()
 connection.close()
-
