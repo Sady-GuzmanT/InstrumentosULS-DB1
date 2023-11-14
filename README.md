@@ -2,4 +2,4 @@
 Relacionado a ramo Base de Datos 1 uls
 
 
-![plot](./img/foto4.5.png)
+![plot](./Img/foto4.5.png)
