@@ -23,11 +23,34 @@ connection = psycopg2.connect(
 # Se crea cursor
 crsr = connection.cursor()
 
-# Cuando se usa btn'execute query' en UI, Se escribe 'log' en terminal.
+# Cuando se usa BOTON 'execute query' en UI, Se escribe 'log' en terminal.
 # TODO: Implementar funcionalidad junto a barra de Query.
 def execute_query():
-    # Your function code here
-    print("TERMINAL rgt>> Executing query...")
+    # Recupera string de entry query_entry
+    query = query_entry.get()
+    
+    try:
+        print("TERMINAL rgt>> Executing query...")
+        # --> De aqui para abajo es lo mismo que en 1er bloque TRY EXCEPT
+        # Ejec Query
+        crsr.execute(query)
+        
+        # Recupera los resultados.
+        results = crsr.fetchall()
+
+        # Muestra los resultados en el panel de display tipo tabla
+        display_results(results)
+        
+        # Termina de usar cursor, Lo cierra.
+        # crsr.close()
+    except Exception as error:
+        print('ERROR EXCEPT 2 rgt>> ')
+        print(error)
+
+
+    
+    
+    
 
 # Muestra resultados eN UI.
 def display_results(results):
@@ -72,9 +95,12 @@ result_tree.grid(row=1, column=0, padx=10, pady=10, columnspan=3)
 
 # Bloque de Query. Por ahora esta en 'duro'
 # TODO: Deberia tomar query de barra input 'query entry' o de Botones con 'consulta relevantes' (Pendientes)
+
 try:
     # Ejecuta la Query. En duro por ahora.
-    crsr.execute('SELECT * FROM estudiante')
+    query2 = query_entry.get()
+    #crsr.execute('SELECT * FROM estudiante')
+    crsr.execute(query2)
     
     # Recupera los resultados.
     results = crsr.fetchall()
@@ -83,7 +109,7 @@ try:
     display_results(results)
     
     # Termina de usar cursor, Lo cierra.
-    crsr.close()
+    #crsr.close()
 except Exception as error:
     # Captura errores. como try-catch en Java. Muestra el error en la terminal.
     print('ERROR EXCEPT rgt>> ')
@@ -94,10 +120,10 @@ finally:
     print('FINALLY rgt>>')
     
     
-    
-
-# Cierra la connection. No estoy seguro si esta es la posicion correcta para esto.
-connection.close()
-
 # Inicia y refresca la ventana de la UI.
 root.mainloop()
+
+# Cierra la connection. No estoy seguro si esta es la posicion correcta para esto.
+crsr.close()
+connection.close()
+
