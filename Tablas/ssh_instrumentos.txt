@@ -1,4 +1,4 @@
-ssh sady.guzman@10.4.3.195
-domino123
+ssh usr@ip
+pss
 
-psql -U instrumentos_dev -d instrumentos
+psql -U usr -d db
