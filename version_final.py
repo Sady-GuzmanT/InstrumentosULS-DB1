@@ -25,8 +25,10 @@ import psycopg2
 connection = psycopg2.connect(
     host="10.4.3.195",  # PUERTO 5432
     database="instrumentos",
-    user="instrumentos_dev",  # Temporal! - Cambiar a 'instrumento'
-    password="5jaLgi6"
+    #user="instrumentos_dev",  # Temporal! - Cambiar a 'instrumento'
+    #password="5jaLgi6"
+    user="instrumentos",  # Temporal! - Cambiar a 'instrumento'
+    password="abKimY4"
 )
 
 
@@ -75,18 +77,32 @@ def execute_combobox_query1():
         messagebox.showerror("Error", str(error))
 
 
-# Ejecuta query de grupo combobox 2
+# Ejecuta query de grupo combobox 2 - Ver Prestamos * Eventual y Anual
 def execute_combobox_query2():
     selected_item = combobox_query2.get()
-    query = f"SELECT * FROM instrumento WHERE nombre = '{selected_item}'" # TIENE QUE HACERSE QUERY DE VER PRESTAMOS
-    try:
-        crsr.execute(query)
-        results = crsr.fetchall()
-        display_results_in_window(results)
-    except Exception as error:
-        print('ERROR EXCEPT Combobox rgt>> ')
-        print(error)
-        messagebox.showerror("Error", str(error))
+    
+    if selected_item == "Eventual":
+        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento FROM Estudiante e INNER JOIN prestamo_eventual p ON e.rut = p.rutest INNER JOIN Instrumento i ON p.NumSerieInst = i.NumSerie" 
+
+        try:
+            crsr.execute(query)
+            results = crsr.fetchall()
+            display_results_in_window(results)
+        except Exception as error:
+            print('ERROR EXCEPT Combobox rgt>> ')
+            print(error)
+            messagebox.showerror("Error", str(error))
+    else:
+        query = f"SELECT * FROM instrumento"
+        try:
+            crsr.execute(query)
+            results = crsr.fetchall()
+            ventana_error()
+            print('TRY ->ventana rgt>> Selecciona opcion no implementada aun.')
+        except Exception as error:
+            print('ERROR EXCEPT Combobox rgt>> ')
+            print(error)
+            messagebox.showerror("Error", str(error))
 
 
 # Ejecuta query de grupo combobox 3. 'Ver Instrumento'
@@ -117,11 +133,11 @@ def execute_combobox_query3():
             messagebox.showerror("Error", str(error))
 
 
-# Ejecuta query de grupo combobox 4
-# TODO: Inventar una Query para este bloque.
+# Ejecuta query de grupo combobox 4. - Ver prestamos de estudiante especifico por rut
 def execute_combobox_query4():
     selected_item = combobox_query4.get()
-    query = f"SELECT * FROM instrumento WHERE nombre = '{selected_item}'"
+    query = f"SELECT e.RUT AS RUT_Estudiante, i.NumSerie AS Num_Serie_Instrumento, s.EstadoSolicitud, COUNT(s.RutEst) AS Cant_Veces_Prestado FROM Estudiante e INNER JOIN Solicita s ON e.RUT = s.RutEst INNER JOIN Instrumento i ON i.NumSerie = s.NumSerieInst WHERE e.RUT = '{selected_item}' GROUP BY e.RUT, s.RutEst, i.NumSerie, s.EstadoSolicitud"
+    
     try:
         crsr.execute(query)
         results = crsr.fetchall()
@@ -154,7 +170,7 @@ def execute_combobox_query4():
 def display_results_in_window(results):
     # Create a new window to display the results
     result_window = tk.Toplevel(root)
-    result_window.title("Query Results")
+    result_window.title("Resultado Consulta")
 
     # Create a treeview widget to display the results
     result_tree = ttk.Treeview(result_window, show="headings")
@@ -171,7 +187,25 @@ def display_results_in_window(results):
     for i, row in enumerate(results, 1):
         result_tree.insert("", "end", iid=i, values=tuple(row))
 
-
+# Ventana que avisa que una consulta en especifico aun no esta implementada.
+def ventana_error():
+    # Create a new window to display the results
+    ventana_alerta = tk.Toplevel(root)
+    ventana_alerta.title("Alerta")
+    
+    nombre_NoImplementado = combobox_query2.get()
+    
+    mensaje = tk.Label(
+    ventana_alerta,
+    text= f"Consulta '{nombre_NoImplementado}' no implementada aun.",
+    font=("Arial", 12, "bold"),
+    fg="blue",
+    bg="#dedede",
+    padx=10,
+    pady=10,
+    )
+    mensaje.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
+    
 
 
 # ### ---> ELEMENTOS DE U.I.
@@ -181,15 +215,15 @@ root = tk.Tk()
 root.title("Base de Datos Instrumentos")
 
 
-# QUERY BAR Y BTN ORIGINALES --> Hay que comentarlos despues.
+# QUERY BAR Y BTN ORIGINALES --> Comentados pero se mantienen porque son utiles
 
 # Input para Queries. \ Hay que comentar este bloque despues
 query_entry = ttk.Entry(root, width=50)
-query_entry.grid(row=10, column=0, padx=10, pady=10, columnspan=2)
+#query_entry.grid(row=10, column=0, padx=10, pady=10, columnspan=2)
 
 # Btn 'Execute Query'. \ Hay que comentar este bloque despues
 execute_button = ttk.Button(root, text="Hacer Consulta", command=execute_query)
-execute_button.grid(row=10, column=2, padx=10, pady=10)
+#execute_button.grid(row=10, column=2, padx=10, pady=10)
 
 
 # ### TITULO dentro de ventana
@@ -208,7 +242,7 @@ label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
 
 # Conjunto de ComboBox y Boton de ejecucion de ComboBox_Query.
 
-# ### 1ra consulta
+# ### 1ra consulta - VER ESTUDIANTES
 
 # Label para combobox 1
 label_combobox1 = ttk.Label(root, text="Ver Estudiantes")
@@ -225,31 +259,31 @@ execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 
 
 
-# ### 2da consulta
+# ### 2da consulta - VER PRESTAMOS
 
 # Label para combobox 2
 label_combobox2 = ttk.Label(root, text="Ver Prestamos")
 label_combobox2.grid(row=3, column=0, padx=10, pady=10)
 
 # Combobox2
-combobox_query_values2 = ["Anual", "Eventual"]
+combobox_query_values2 = ["Eventual", "Anual [Pendiente]"]
 combobox_query2 = ttk.Combobox(root, values=combobox_query_values2)
 combobox_query2.grid(row=4, column=0, padx=10, pady=10)
 
-# Btn 'Execute Combobox Query' 2 
-execute_combobox_button2 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query3)
+# Btn 'Execute Combobox Query' 2
+execute_combobox_button2 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query2)
 execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
 
 
-# ### 3ra consulta
+# ### 3ra consulta - VER INSTRUMENTOS
 
 # Label para combobox 3
 label_combobox3 = ttk.Label(root, text="Ver Instrumentos")
 label_combobox3.grid(row=5, column=0, padx=10, pady=10)
 
 # Combobox 3
-combobox_query_values3 = ["Todos", "Violin", "Corno"]
+combobox_query_values3 = ["Todos", "Baritono", "Clarinete", "Corno",  "Trombon", "Trompeta", "Tuba", "Viola", "Violin", "Violoncello"]
 combobox_query3 = ttk.Combobox(root, values=combobox_query_values3)
 combobox_query3.grid(row=6, column=0, padx=10, pady=10)
 
@@ -259,29 +293,31 @@ execute_combobox_button3.grid(row=6, column=1, padx=10, pady=10)
 
 
 
-# ### 4ta consulta
+# ### 4ta consulta - VER PRESTAMOS HISTORICOS DE ESTUDIANTE
 
 # Label para combobox 4
-label_combobox4 = ttk.Label(root, text="Pensar Consulta")
+label_combobox4 = ttk.Label(root, text="Prestamos de un Estudiante")
 label_combobox4.grid(row=7, column=0, padx=10, pady=10)
 
 # Combobox4
-combobox_query_values4 = ["Pensar opcion1", "Pensar opcion2"]
-combobox_query4 = ttk.Combobox(root, values=combobox_query_values4)
+#combobox_query_values4 = ["Pensar opcion1", "Pensar opcion2"]
+#combobox_query4 = ttk.Combobox(root, values=combobox_query_values4)
+combobox_query4 = ttk.Entry(width=25)
 combobox_query4.grid(row=8, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 4 
-execute_combobox_button4 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query3)
+execute_combobox_button4 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query4)
 execute_combobox_button4.grid(row=8, column=1, padx=10, pady=10)
 
 
 
 
-# TreeView para ver resultados de la Query.
-'''#Resultados en tabla. --> Ahora queda comentado, porque se ven los resultados en nueva ventana.
+# TreeView para ver resultados de la Query. -> Se usaba antes. Ahora se ven resultados en una ventana
+'''#Resultados en tabla.
 result_tree = ttk.Treeview(root, show="headings")
 result_tree.grid(row=2, column=0, padx=10, pady=10, columnspan=3)
 '''
+
 
 
 
