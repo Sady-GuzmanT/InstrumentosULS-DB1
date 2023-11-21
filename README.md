@@ -10,4 +10,4 @@ Version_final.py es version que se va a entregar y presentar. (2da foto.)
 
 ![plot](./Img/version.png) 
 <br>
-![plot](./Img/version_final.png)
+![plot](./Img/Version_Final_Banner.png)
