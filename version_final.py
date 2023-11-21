@@ -82,8 +82,11 @@ def execute_combobox_query2():
     selected_item = combobox_query2.get()
     
     if selected_item == "Eventual":
-        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento FROM Estudiante e INNER JOIN prestamo_eventual p ON e.rut = p.rutest INNER JOIN Instrumento i ON p.NumSerieInst = i.NumSerie" 
-
+        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento \
+                    FROM Estudiante e \
+                    INNER JOIN prestamo_eventual p ON e.rut = p.rutest \
+                    INNER JOIN Instrumento i ON p.NumSerieInst = i.NumSerie"
+        #query = consulta2_string
         try:
             crsr.execute(query)
             results = crsr.fetchall()
@@ -136,8 +139,13 @@ def execute_combobox_query3():
 # Ejecuta query de grupo combobox 4. - Ver prestamos de estudiante especifico por rut
 def execute_combobox_query4():
     selected_item = combobox_query4.get()
-    query = f"SELECT e.RUT AS RUT_Estudiante, i.NumSerie AS Num_Serie_Instrumento, s.EstadoSolicitud, COUNT(s.RutEst) AS Cant_Veces_Prestado FROM Estudiante e INNER JOIN Solicita s ON e.RUT = s.RutEst INNER JOIN Instrumento i ON i.NumSerie = s.NumSerieInst WHERE e.RUT = '{selected_item}' GROUP BY e.RUT, s.RutEst, i.NumSerie, s.EstadoSolicitud"
-    
+    query = f"SELECT e.RUT AS RUT_Estudiante, i.NumSerie AS Num_Serie_Instrumento, s.EstadoSolicitud, COUNT(s.RutEst) AS Cant_Veces_Prestado \
+                FROM Estudiante e \
+                INNER JOIN Solicita s ON e.RUT = s.RutEst \
+                INNER JOIN Instrumento i ON i.NumSerie = s.NumSerieInst \
+                WHERE e.RUT = '{selected_item}' \
+                GROUP BY e.RUT, s.RutEst, i.NumSerie, s.EstadoSolicitud"
+    #query = consulta4_string
     try:
         crsr.execute(query)
         results = crsr.fetchall()
