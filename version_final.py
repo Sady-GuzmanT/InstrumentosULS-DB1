@@ -96,12 +96,17 @@ def execute_combobox_query2():
             print(error)
             messagebox.showerror("Error", str(error))
     else:
-        query = f"SELECT * FROM instrumento"
+        #query = f"SELECT * FROM instrumento"
+        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento \
+                    FROM Estudiante e \
+                    INNER JOIN gestiona g ON e.rut = g.rutest \
+                    INNER JOIN instrumento i ON g.numserieinst = i.numserie"
         try:
             crsr.execute(query)
             results = crsr.fetchall()
-            ventana_error()
-            print('TRY ->ventana rgt>> Selecciona opcion no implementada aun.')
+            display_results_in_window(results)
+            #ventana_error()
+            #print('TRY ->ventana rgt>> Selecciona opcion no implementada aun.')
         except Exception as error:
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
@@ -274,7 +279,7 @@ label_combobox2 = ttk.Label(root, text="Ver Prestamos")
 label_combobox2.grid(row=3, column=0, padx=10, pady=10)
 
 # Combobox2
-combobox_query_values2 = ["Eventual", "Anual [Pendiente]"]
+combobox_query_values2 = ["Eventual", "Anual"]
 combobox_query2 = ttk.Combobox(root, values=combobox_query_values2)
 combobox_query2.grid(row=4, column=0, padx=10, pady=10)
 
