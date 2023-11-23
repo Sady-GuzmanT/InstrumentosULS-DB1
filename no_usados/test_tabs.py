@@ -10,22 +10,22 @@ from tkinter import messagebox
 root = tk.Tk()
 root.title("Code in Notebook")
 
-# Create a ttkbootstrap style
-style = Style(theme="yeti")  # You can choose a different theme
+# estilo ttkbootstrap 
+style = Style(theme="yeti")  # Tema
 
-# Create a ttkbootstrap notebook
+# Crea un ttkbootstrap notebook, y agrega a ventana principal
 notebook = Notebook(root, style="primary.TNotebook")
 notebook.pack(fill="both", expand=True)
 
-# Create tabs in the notebook
+# crea tabs para notebook
 tab1 = tk.Frame(notebook)
 tab2 = tk.Frame(notebook)
 
-# Add tabs to the notebook
+# agrega las tabs al notebook
 notebook.add(tab1, text="Tab 1")
 notebook.add(tab2, text="Tab 2")
 
-# Your existing code (replace this with your actual code)
+# def de ejemplo para boton
 def hola():
     print("hola")
 
@@ -63,5 +63,5 @@ combobox_query2.grid(row=4, column=0, padx=10, pady=10)
 execute_combobox_button2 = ttk.Button(tab2, text="Hacer Consulta", command=hola)
 execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
-# Run the Tkinter event loop
+# event loop the ventana principal.
 root.mainloop()
