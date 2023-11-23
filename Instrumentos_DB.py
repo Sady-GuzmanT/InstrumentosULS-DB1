@@ -4,7 +4,27 @@ import ttkbootstrap as ttk
 from tkinter import messagebox
 import psycopg2
 
-# Configuracion de psycop CONNECT ---> Hacerlo con login en futura version.
+
+
+''' TODO:
+    # NOTA: ComboBox_Query1 se llama ComboBox pero es una Query fija, Se mantiene asi por orden.
+                
+      NOTA: Hay un elemento de 'tk.entry', Esta comentado, pero se mantiene por conveniencia.
+    
+    
+    # Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo.
+    
+    # Agregar Tabs para separar funcionalidades. (Por ahora: Home, Consulta, Registro)
+    
+    # Agregar funciones de registro de prestamos. (y de estudiante?)
+    
+    # Agregar visualizacion de consulta, Puede ser cantidad de prestamos o cant tipos instrumentos
+        prestados mensuales. (Mathplot lib??)
+'''
+
+
+
+# Configuracion de psycop CONNECT con PostgresSQL
 connection = psycopg2.connect(
     host="10.4.3.195",  # PUERTO 5432
     database="instrumentos",
@@ -12,8 +32,63 @@ connection = psycopg2.connect(
     password="abKimY4"
 )
 
-# Create a cursor
+# Crea cursor para hacer las consultas
 crsr = connection.cursor()
+
+# Elementos U.I. de programa. ---->
+
+
+#root = ttk.Window(themename = 'yeti') # Tema claro
+root = ttk.Window(themename = 'superhero') # temas oscuros: superhero, Darkly, Vapor
+root.geometry("320x390") # Tamano ventana fijo
+root.resizable(False, False) # Hace ventana no modificable. Ahorra hacerla dinamica.
+root.title("Base de Datos Instrumentos")
+
+# ### TITULO dentro de ventana
+label_titulo = ttk.Label(
+    root,
+    text="Central Instrumentos ULS",
+    font=("BlinkMacSystemFont", 16, "bold"),
+    foreground="White",
+    padding=(10, 10),
+)
+label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
+
+
+# Muestra resultados en una nueva ventana resultado. (usa treeview)
+def display_results_in_window(results):
+    # Create a new window to display the results
+    result_window = tk.Toplevel(root)
+    result_window.title("Resultado Consulta")
+
+    # Create a treeview widget to display the results
+    result_tree = ttk.Treeview(result_window, show="headings")
+    result_tree.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+    # Create a vertical scrollbar
+    y_scrollbar = ttk.Scrollbar(result_window, orient="vertical", command=result_tree.yview)
+    y_scrollbar.grid(row=0, column=1, sticky="ns")
+    result_tree.configure(yscrollcommand=y_scrollbar.set)
+
+    # Display column names
+    columns = [desc[0] for desc in crsr.description]
+    result_tree["columns"] = columns
+    for col in columns:
+        result_tree.heading(col, text=col)
+        result_tree.column(col, anchor=tk.CENTER)
+
+    # Display data
+    for i, row in enumerate(results, 1):
+        result_tree.insert("", "end", iid=i, values=tuple(row))
+
+    # Update the window's layout to make it resizable
+    result_window.grid_rowconfigure(0, weight=1)
+    result_window.grid_columnconfigure(0, weight=1)
+
+
+# Logica Consultas. --->
+
+
 
 # Ejecuta query de grupo combobox 1 - Ver estudiantes
 def execute_combobox_query1():
@@ -26,7 +101,6 @@ def execute_combobox_query1():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
-
 
 
 
@@ -59,6 +133,7 @@ def execute_combobox_query2():
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
             messagebox.showerror("Error", str(error))
+
 
 # Ejecuta query de grupo combobox 3. 'Ver Instrumento'
 # TODO: Agregar mas tipos de instrumentos.
@@ -96,6 +171,7 @@ def execute_combobox_query3():
             print(error)
             messagebox.showerror("Error", str(error))
 
+
 # Ejecuta query de grupo combobox 4. - Ver prestamos de estudiante especifico por rut
 def execute_combobox_query4():
     selected_item = combobox_query4.get()
@@ -114,56 +190,15 @@ def execute_combobox_query4():
         print(error)
         messagebox.showerror("Error", str(error))
 
-# Muestra resultados en una nueva ventana.
-def display_results_in_window(results):
-    # Create a new window to display the results
-    result_window = tk.Toplevel(root)
-    result_window.title("Resultado Consulta")
 
-    # Create a treeview widget to display the results
-    result_tree = ttk.Treeview(result_window, show="headings")
-    result_tree.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-    # Create a vertical scrollbar
-    y_scrollbar = ttk.Scrollbar(result_window, orient="vertical", command=result_tree.yview)
-    y_scrollbar.grid(row=0, column=1, sticky="ns")
-    result_tree.configure(yscrollcommand=y_scrollbar.set)
 
-    # Display column names
-    columns = [desc[0] for desc in crsr.description]
-    result_tree["columns"] = columns
-    for col in columns:
-        result_tree.heading(col, text=col)
-        result_tree.column(col, anchor=tk.CENTER)
 
-    # Display data
-    for i, row in enumerate(results, 1):
-        result_tree.insert("", "end", iid=i, values=tuple(row))
 
-    # Update the window's layout to make it resizable
-    result_window.grid_rowconfigure(0, weight=1)
-    result_window.grid_columnconfigure(0, weight=1)
 
-# Ventana principal de UI.
-#root = tk.Tk()
-#root = ttk.Window(themename = 'yeti') # CAMBIO
-root = ttk.Window(themename = 'superhero') # CAMBIO superhero, Darkly, Vapor
-root.geometry("310x380")
-root.resizable(False, False)
-root.title("Base de Datos Instrumentos")
 
-# ### TITULO dentro de ventana
-label_titulo = ttk.Label(
-    root,
-    text="Central Instrumentos ULS",
-    font=("BlinkMacSystemFont", 16, "bold"),
-    foreground="White",
-   # background="#dedede",
-    padding=(10, 10),
-)
-label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
 
-# Conjunto de ComboBox y Boton de ejecucion de ComboBox_Query.
+# Elementos de U.I. De Consultas ---->
 
 # ### 1ra consulta - VER ESTUDIANTES
 # Label para combobox 1
@@ -223,6 +258,10 @@ combobox_query4.grid(row=8, column=0, padx=10, pady=10)
 # Btn 'Execute Combobox Query' 4
 execute_combobox_button4 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query4)
 execute_combobox_button4.grid(row=8, column=1, padx=10, pady=10)
+
+
+
+# Fin codigo, Las lineas siguientes tienen que estar al final del archivo para que funcione correctamente.
 
 # Inicia y refresca la ventana de la UI.
 root.mainloop()
