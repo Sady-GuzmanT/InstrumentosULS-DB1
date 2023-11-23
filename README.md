@@ -1,13 +1,10 @@
 # BaseDatos1_uni
+*** 
 Relacionado a Asignatura Base de Datos 1 - uls.
 
-Main.py es la version base (1ra foto). <br>
-ventana.py version en progreso.<br>
-test_combobox.py version en progreso.<br>
-combinado.py- usa ventana.py con combobox.py<br>
-<br>
-Version_final.py es version que se va a entregar y presentar. (2da foto.)
 
-![plot](./Img/version.png) 
-<br>
-![plot](./Img/Version_Final_Banner.png)
+#### Version_final.py -> Version que se va a entregar y presentar. (Hito 3)<br>
+#### Instrumentos_DB.py -> Version con todas las funcionalidades. (Hito 4) {En Desarrollo}<br>
+
+
+![plot](./Img/banner_bootstrap_light.png)
