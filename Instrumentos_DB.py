@@ -1,9 +1,10 @@
 import tkinter as tk
 #from tkinter import ttk, messagebox
 import ttkbootstrap as ttk
+from ttkbootstrap import Style, Notebook
 from tkinter import messagebox
 import psycopg2
-
+from PIL import Image, ImageTk
 
 
 ''' TODO:
@@ -14,10 +15,11 @@ import psycopg2
     
     # Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo.
     
-    # Agregar Tabs para separar funcionalidades. (Por ahora: Home, Consulta, Registro)
+    # Agregar Tabs para separar funcionalidades. (Por ahora: Home, Consulta, Registro) --  > Listo. 
+                Falta agregar funciones a registra.
+                # Agregar funciones de registro de prestamos. (y de estudiante?)
     
-    # Agregar funciones de registro de prestamos. (y de estudiante?)
-    
+   
     # Agregar visualizacion de consulta, Puede ser cantidad de prestamos o cant tipos instrumentos
         prestados mensuales. (Mathplot lib??)
 '''
@@ -39,20 +41,29 @@ crsr = connection.cursor()
 
 
 #root = ttk.Window(themename = 'yeti') # Tema claro
-root = ttk.Window(themename = 'superhero') # temas oscuros: superhero, Darkly, Vapor
-root.geometry("320x390") # Tamano ventana fijo
+root = ttk.Window(themename = 'darkly') # temas oscuros: superhero, Darkly, Vapor
+#root.geometry("320x390") # Tamano ventana fijo -> Con linea siguiente no es necesario. Se comenta
 root.resizable(False, False) # Hace ventana no modificable. Ahorra hacerla dinamica.
 root.title("Base de Datos Instrumentos")
 
-# ### TITULO dentro de ventana
-label_titulo = ttk.Label(
-    root,
-    text="Central Instrumentos ULS",
-    font=("BlinkMacSystemFont", 16, "bold"),
-    foreground="White",
-    padding=(10, 10),
-)
-label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
+
+
+# Creacion NOTEBOOK TABS 
+
+# Crea un ttkbootstrap notebook, y agrega a ventana principal
+notebook = Notebook(root, style="primary.TNotebook")
+#notebook.pack(fill="both", expand=True)
+notebook.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+# crea tabs para notebook
+tab1 = tk.Frame(notebook)
+tab2 = tk.Frame(notebook)
+tab3 = tk.Frame(notebook)
+
+# agrega las tabs al notebook
+notebook.add(tab1, text="Home")
+notebook.add(tab2, text="Consulta")
+notebook.add(tab3, text="Registro")
 
 
 # Muestra resultados en una nueva ventana resultado. (usa treeview)
@@ -194,19 +205,50 @@ def execute_combobox_query4():
 
 
 
+# Elementos U.I. de Home | TAB 1 ---->
+
+# ### TITULO dentro de ventana
+label_titulo = ttk.Label(
+    tab1,
+    text="Central Instrumentos ULS",
+    font=("BlinkMacSystemFont", 16, "bold"),
+    foreground="White",
+    padding=(10, 10),
+)
+label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
+
+# ### Instrucciones de uso.
+label_indicaciones = ttk.Label(
+    tab1,
+    text="Para usar el programa hay que navegar las pestanas en la barra superior.\
+        \n\n*Consulta: Se obtiene informacion relevante.\n\t  Seleccionar categoria en ComboBox y hacer consulta.\
+            \n\n*Registro: Se ingresan nuevos prestamos.",
+    font=("BlinkMacSystemFont", 10),
+    foreground="White",
+    padding=(10, 10),
+)
+label_indicaciones.grid(row=2, column=0, padx=5, pady=10, columnspan=20)
+
+# ### Agrega imagen de ULS. (Preguntar a profesor si esta bien agregar esa imagen.)
+image_path = "logo.png"
+img = Image.open(image_path)
+img = img.resize((300, 150))  # dimension logo
+image = ImageTk.PhotoImage(img)
+
+image_label = ttk.Label(tab1, image=image, background="White") # Se agrega fondo blanco porque es un png sin fondo.
+image_label.grid(row=3, column=10, padx=10, pady=10)
 
 
 
-
-# Elementos de U.I. De Consultas ---->
+# Elementos de U.I. De Consultas | TAB 2---->
 
 # ### 1ra consulta - VER ESTUDIANTES
 # Label para combobox 1
-label_combobox1 = ttk.Label(root, text="Ver Estudiantes", font=("Arial", 9, "bold"))
+label_combobox1 = ttk.Label(tab2, text="Ver Estudiantes", font=("Arial", 9, "bold"))
 label_combobox1.grid(row=1, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 1
-execute_combobox_button1 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query1)
+execute_combobox_button1 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query1)
 execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 
 
@@ -214,16 +256,16 @@ execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 
 # ### 2da consulta - VER PRESTAMOS
 # Label para combobox 2
-label_combobox2 = ttk.Label(root, text="Ver Prestamos", font=("Arial", 9, "bold"))
+label_combobox2 = ttk.Label(tab2, text="Ver Prestamos", font=("Arial", 9, "bold"))
 label_combobox2.grid(row=3, column=0, padx=10, pady=10)
 
 # Combobox2
 combobox_query_values2 = ["Eventual", "Anual"]
-combobox_query2 = ttk.Combobox(root, values=combobox_query_values2)
+combobox_query2 = ttk.Combobox(tab2, values=combobox_query_values2)
 combobox_query2.grid(row=4, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 2
-execute_combobox_button2 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query2)
+execute_combobox_button2 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query2)
 execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
 
@@ -231,16 +273,16 @@ execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
 # ### 3ra consulta - VER INSTRUMENTOS
 # Label para combobox 3
-label_combobox3 = ttk.Label(root, text="Ver Instrumentos", font=("Arial", 9, "bold"))
+label_combobox3 = ttk.Label(tab2, text="Ver Instrumentos", font=("Arial", 9, "bold"))
 label_combobox3.grid(row=5, column=0, padx=10, pady=10)
 
 # Combobox 3
 combobox_query_values3 = ["Todos", "Baritono", "Clarinete", "Corno", "Trombon", "Trompeta", "Tuba", "Viola", "Violin", "Violoncello"]
-combobox_query3 = ttk.Combobox(root, values=combobox_query_values3)
+combobox_query3 = ttk.Combobox(tab2, values=combobox_query_values3)
 combobox_query3.grid(row=6, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 3
-execute_combobox_button3 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query3)
+execute_combobox_button3 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query3)
 execute_combobox_button3.grid(row=6, column=1, padx=10, pady=10)
 
 
@@ -248,17 +290,20 @@ execute_combobox_button3.grid(row=6, column=1, padx=10, pady=10)
 
 # ### 4ta consulta - VER PRESTAMOS HISTORICOS DE ESTUDIANTE
 # Label para combobox 4
-label_combobox4 = ttk.Label(root, text="Prestamos de un Estudiante", font=("Arial", 9, "bold"))
+label_combobox4 = ttk.Label(tab2, text="Prestamos de un Estudiante", font=("Arial", 9, "bold"))
 label_combobox4.grid(row=7, column=0, padx=10, pady=10)
 
 # Combobox4
-combobox_query4 = ttk.Entry(width=25)
+combobox_query4 = ttk.Entry(tab2, width=25)
 combobox_query4.grid(row=8, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 4
-execute_combobox_button4 = ttk.Button(root, text="Hacer Consulta", command=execute_combobox_query4)
+execute_combobox_button4 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query4)
 execute_combobox_button4.grid(row=8, column=1, padx=10, pady=10)
 
+# Centra elementos
+tab2.columnconfigure(0, weight=1)
+tab2.columnconfigure(1, weight=1)
 
 
 # Fin codigo, Las lineas siguientes tienen que estar al final del archivo para que funcione correctamente.
