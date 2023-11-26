@@ -41,7 +41,7 @@ crsr = connection.cursor()
 
 
 #root = ttk.Window(themename = 'yeti') # Tema claro
-root = ttk.Window(themename = 'darkly') # temas oscuros: superhero, Darkly, Vapor
+root = ttk.Window(themename = 'superhero') # temas oscuros: superhero, Darkly, Vapor
 #root.geometry("320x390") # Tamano ventana fijo -> Con linea siguiente no es necesario. Se comenta
 root.resizable(False, False) # Hace ventana no modificable. Ahorra hacerla dinamica.
 root.title("Base de Datos Instrumentos")
@@ -221,8 +221,8 @@ label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
 label_indicaciones = ttk.Label(
     tab1,
     text="Para usar el programa hay que navegar las pestanas en la barra superior.\
-        \n\n*Consulta: Se obtiene informacion relevante.\n\t  Seleccionar categoria en ComboBox y hacer consulta.\
-            \n\n*Registro: Se ingresan nuevos prestamos.",
+        \n\n*Consulta: Se obtiene informacion relevante. Seleccionar categoria en ComboBox\n\t  y hacer consulta.\
+            \n\n*Registro: Se Registran nuevos prestamos, Estudiantes, Instrumentos, y Profesores.",
     font=("BlinkMacSystemFont", 10),
     foreground="White",
     padding=(10, 10),
@@ -248,7 +248,7 @@ label_combobox1 = ttk.Label(tab2, text="Ver Estudiantes", font=("Arial", 9, "bol
 label_combobox1.grid(row=1, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 1
-execute_combobox_button1 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query1)
+execute_combobox_button1 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query1, width=20)
 execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 
 
@@ -265,7 +265,7 @@ combobox_query2 = ttk.Combobox(tab2, values=combobox_query_values2)
 combobox_query2.grid(row=4, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 2
-execute_combobox_button2 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query2)
+execute_combobox_button2 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query2, width=20)
 execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
 
@@ -282,7 +282,7 @@ combobox_query3 = ttk.Combobox(tab2, values=combobox_query_values3)
 combobox_query3.grid(row=6, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 3
-execute_combobox_button3 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query3)
+execute_combobox_button3 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query3, width=20)
 execute_combobox_button3.grid(row=6, column=1, padx=10, pady=10)
 
 
@@ -298,12 +298,58 @@ combobox_query4 = ttk.Entry(tab2, width=25)
 combobox_query4.grid(row=8, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 4
-execute_combobox_button4 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query4)
+execute_combobox_button4 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query4, width=20)
 execute_combobox_button4.grid(row=8, column=1, padx=10, pady=10)
 
-# Centra elementos
+# Centra elementos de Tab1 - Consulta
 tab2.columnconfigure(0, weight=1)
 tab2.columnconfigure(1, weight=1)
+
+
+
+
+# ### Tab3 | UI de REGISTROS --->
+
+def print_mock():
+    print("hola esto es un mock")
+
+# ### 1er Registro - Registrar Prestamo Eventual
+# Btn para Registro 1
+btn_registro1 = ttk.Button(tab3, text="Registrar Prestamo Eventual", command=print_mock, width=50)
+btn_registro1.grid(row=2, column=0, padx=10, pady=(30,10))
+
+
+
+
+# ### 2er Registro - Registrar Prestamo Anual
+# Btn para Registro 2
+btn_registro2 = ttk.Button(tab3, text="Registrar Prestamo Anual", command=print_mock, width=50)
+btn_registro2.grid(row=4, column=0, padx=10, pady=10)
+
+
+
+# ### 3er Registro - Registrar Estudiante
+# Btn para Registro 3
+btn_registro3 = ttk.Button(tab3, text="Registrar Estudiante", command=print_mock, width=40)
+btn_registro3.grid(row=6, column=0, padx=10, pady=(40,10))
+
+
+
+# ### 4er Registro - Registrar Instrumento
+# Btn para Registro 4
+btn_registro4 = ttk.Button(tab3, text="Registrar Instrumento", command=print_mock, width=40)
+btn_registro4.grid(row=8, column=0, padx=10, pady=10)
+
+
+
+# ### 5er Registro - Registrar Instrumento
+# Btn para Registro 5
+btn_registro5 = ttk.Button(tab3, text="Registrar Profesor", command=print_mock, width=40)
+btn_registro5.grid(row=10, column=0, padx=10, pady=10)
+
+# Centra los elementos de la Tab3 - Registra
+tab3.columnconfigure(0, weight=1)
+tab3.columnconfigure(0, weight=1)
 
 
 # Fin codigo, Las lineas siguientes tienen que estar al final del archivo para que funcione correctamente.

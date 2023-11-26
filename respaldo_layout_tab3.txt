@@ -1,0 +1,103 @@
+Horizontal:
+
+# ### 1er Registro - Registrar Prestamo Eventual
+# Label para Registro 1
+label_combobox1 = ttk.Label(tab3, text="Registrar Prestamo Eventual", font=("Arial", 9, "bold"))
+label_combobox1.grid(row=1, column=0, padx=10, pady=10)
+
+# Btn para Registro 1
+execute_combobox_button1 = ttk.Button(tab3, text="Hacer Registro", command=print_mock)
+execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
+
+
+
+# ### 2er Registro - Registrar Prestamo Anual
+# Label para Registro 2
+label_combobox1 = ttk.Label(tab3, text="Registrar Prestamo Anual", font=("Arial", 9, "bold"))
+label_combobox1.grid(row=2, column=0, padx=10, pady=10)
+
+# Btn para Registro 2
+execute_combobox_button1 = ttk.Button(tab3, text="Hacer Registro", command=print_mock)
+execute_combobox_button1.grid(row=2, column=1, padx=10, pady=10)
+
+
+
+# ### 3er Registro - Registrar Estudiante
+# Label para Registro 3
+label_combobox1 = ttk.Label(tab3, text="Registrar Estudiante", font=("Arial", 9, "bold"))
+label_combobox1.grid(row=3, column=0, padx=10, pady=10)
+
+# Btn para Registro 3
+execute_combobox_button1 = ttk.Button(tab3, text="Hacer Registro", command=print_mock)
+execute_combobox_button1.grid(row=3, column=1, padx=10, pady=10)
+
+
+
+# ### 4er Registro - Registrar Instrumento
+# Label para Registro 4
+label_combobox1 = ttk.Label(tab3, text="Registrar Instrumento", font=("Arial", 9, "bold"))
+label_combobox1.grid(row=4, column=0, padx=10, pady=10)
+
+# Btn para Registro 4
+execute_combobox_button1 = ttk.Button(tab3, text="Hacer Registro", command=print_mock)
+execute_combobox_button1.grid(row=4, column=1, padx=10, pady=10)
+
+
+
+# ### 5er Registro - Registrar Instrumento
+# Label para Registro 5
+label_combobox1 = ttk.Label(tab3, text="Registrar Profesor", font=("Arial", 9, "bold"))
+label_combobox1.grid(row=5, column=0, padx=10, pady=10)
+
+# Btn para Registro 5
+execute_combobox_button1 = ttk.Button(tab3, text="Hacer Registro", command=print_mock)
+execute_combobox_button1.grid(row=5, column=1, padx=10, pady=10)
+
+tab3.columnconfigure(0, weight=1)
+tab3.columnconfigure(1, weight=1)
+
+
+Vertical:
+
+# ### Tab3 | UI de REGISTROS --->
+
+def print_mock():
+    print("hola esto es un mock")
+
+# ### 1er Registro - Registrar Prestamo Eventual
+# Btn para Registro 1
+btn_registro1 = ttk.Button(tab3, text="Registrar Prestamo Eventual", command=print_mock, width=50)
+btn_registro1.grid(row=2, column=0, padx=10, pady=(30,10))
+
+
+
+
+# ### 2er Registro - Registrar Prestamo Anual
+# Btn para Registro 2
+btn_registro2 = ttk.Button(tab3, text="Registrar Prestamo Anual", command=print_mock, width=50)
+btn_registro2.grid(row=4, column=0, padx=10, pady=10)
+
+
+
+# ### 3er Registro - Registrar Estudiante
+# Btn para Registro 3
+btn_registro3 = ttk.Button(tab3, text="Registrar Estudiante", command=print_mock, width=40)
+btn_registro3.grid(row=6, column=0, padx=10, pady=(40,10))
+
+
+
+# ### 4er Registro - Registrar Instrumento
+# Btn para Registro 4
+btn_registro4 = ttk.Button(tab3, text="Registrar Instrumento", command=print_mock, width=40)
+btn_registro4.grid(row=8, column=0, padx=10, pady=10)
+
+
+
+# ### 5er Registro - Registrar Instrumento
+# Btn para Registro 5
+btn_registro5 = ttk.Button(tab3, text="Registrar Profesor", command=print_mock, width=40)
+btn_registro5.grid(row=10, column=0, padx=10, pady=10)
+
+# Centra los elementos de la Tab3 - Registra
+tab3.columnconfigure(0, weight=1)
+tab3.columnconfigure(0, weight=1)
