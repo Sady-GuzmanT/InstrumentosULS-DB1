@@ -33,3 +33,89 @@ INNER JOIN Solicita s ON e.RUT = s.RutEst
 INNER JOIN Instrumento i ON i.NumSerie = s.NumSerieInst
 WHERE e.RUT = '{selected_item}'
 GROUP BY e.RUT, s.RutEst, i.NumSerie, s.EstadoSolicitud;
+
+
+
+
+--- ->>>>
+-- Consultas para actualizar [UPDATE] tablas; REGISTRO
+
+''' TODO: Registrar Profesor, Registrar Estudiante, Registrar Instrumento,
+Registrar Prestamo Eventual, Registrar Prestamo Anual'''
+
+''' Nota: usando '\d table_name' se puede obtener detalles de una tabla'''
+
+-- Formato de UPDATE:
+UPDATE NOMBRE_TABLA
+SET VALUE1 = 123,
+    VALUE2 = '123-abc',
+    VALUE3 = 'asd';
+-- En Python se puede usar {abd} para concat un string
+
+-- Registrar Estudiante.
+
+UPDATE estudiante
+SET rut = {rut_ingresado},
+    nombredepila = '{nombre_ingresado}',
+    apellido1 = '{apellido1_ingresado}',
+    apellido2 = '{apellido2_ingresado}',
+    telefono = '{telefono_ingresado}',
+    carrera = '{carrera_ingresada}',
+    certificadoar = '{certificado_ingresado}',
+    email = '{email_ingresado}';
+
+
+-- Registrar Profesor.
+
+UPDATE profesor
+SET rut = {rut_ingresado},
+    nombredepila = '{nombre_ingresado}',
+    apellido1 = '{apellido1_ingresado}',
+    apellido2 = '{apellido2_ingresado}';
+
+-- Registrar Instrumento.
+
+UPDATE estudiante
+SET rut = {rut_ingresado},
+    numserie = '{numserie_ingresado}',
+    numinventario = '{numinventario_ingresado}',
+    nombre = '{nombre_ingresado}',
+    marca = '{marca_ingresada}',
+    medidas = '{medida_ingresada}',
+    avaluo = {avaluo_ingresado},
+    estado = '{estado_ingresado}';
+
+-- Registrar Prestamo Eventual.
+-- Fechas inicio y termino son tipo 'DATE' El formato es 'YYYY-MM-DD'
+
+UPDATE prestamo_eventual
+SET rutest = '{rut1_ingresado}',
+    rutenc = '{rut2_ingresado}',
+    numserieinst = '{num_serie_ingresado}',
+    fechainicio = '{fecha1_ingresado}',
+    fechatermino = '{fecha2_ingresada}';
+
+ 
+-- Registrar prestamo anual.
+
+UPDATE contratodecomodato
+SET codigocontrato = {codigo_ingresado},
+    callealumno = '{calle_ingresada}',
+    numcallealumno = {num_calle_ingresado},
+    comunaalumno = '{comuna_ingresada}',
+    telefonoalumno = '{telefono_ingresado}';
+    nombredirector = '{nombre_director_ingresado}'
+    rutdirector = '{rut_director_ingresado}'
+    fechacontrato = '{fecha_contrato_ingresada}'
+    fechainicio = '{fecha_inicio_ingresada}'
+    fechatermino = '{fecha_termino_ingresada}';
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
