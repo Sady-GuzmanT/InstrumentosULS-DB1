@@ -61,7 +61,7 @@ crsr = connection.cursor()
 
 #root = ttk.Window(themename = 'yeti') # Tema claro
 root = ttk.Window(themename = 'superhero') # temas oscuros: superhero, Darkly, Vapor
-#root.geometry("320x390") # Tamano ventana fijo -> Con linea siguiente no es necesario. Se comenta
+root.geometry("550x440") # Tamano ventana fijo -> Con linea siguiente no es necesario. Se comenta
 root.resizable(False, False) # Hace ventana no modificable. Ahorra hacerla dinamica.
 root.title("Base de Datos Instrumentos")
 
@@ -331,6 +331,99 @@ tab2.columnconfigure(1, weight=1)
 
 def print_mock():
     print("hola esto es una mock func")
+    
+# ### TAB3 | Ventanas de registro
+def ventana_registro_estudiante():
+    # Crea la ventana, La hace de tamano fijo
+    ventana_registro = tk.Toplevel(root)
+    ventana_registro.title("Registro de Estudiante")
+    ventana_registro.geometry("500x460")
+    ventana_registro.resizable(False, False)
+    
+    # Titulo dentro de ventana
+    label_titulo_registra_estudiante = ttk.Label(
+    ventana_registro,
+    text="Registro Estudiante",
+    font=("BlinkMacSystemFont", 16, "bold"),
+    foreground="White",
+    padding=(10, 10),
+    )
+    label_titulo_registra_estudiante.grid(row=1, column=0, padx=10, pady=10, columnspan=20)
+    
+    
+    # Agrega labels y TextEntries para cada campo.
+    
+    label_rut = ttk.Label(ventana_registro, text="RUT", font=("Arial", 10, "bold"))
+    label_rut.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_rut = ttk.Entry(ventana_registro, width=30)
+    entry_rut.grid(row=3, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_nombre = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
+    label_nombre.grid(row=2, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_nombre = ttk.Entry(ventana_registro, width=30)
+    entry_nombre.grid(row=3, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    label_app1 = ttk.Label(ventana_registro, text="Apelido Paterno", font=("Arial", 10, "bold"))
+    label_app1.grid(row=4, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_app1 = ttk.Entry(ventana_registro, width=30)
+    entry_app1.grid(row=5, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_app2 = ttk.Label(ventana_registro, text="Apelido Materno", font=("Arial", 10, "bold"))
+    label_app2.grid(row=4, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_app2 = ttk.Entry(ventana_registro, width=30)
+    entry_app2.grid(row=5, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    label_tel = ttk.Label(ventana_registro, text="Telefono", font=("Arial", 10, "bold"))
+    label_tel.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_tel = ttk.Entry(ventana_registro, width=30)
+    entry_tel.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_mail = ttk.Label(ventana_registro, text="E-Mail", font=("Arial", 10, "bold"))
+    label_mail.grid(row=6, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_mail = ttk.Entry(ventana_registro, width=30)
+    entry_mail.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    label_Carrera = ttk.Label(ventana_registro, text="Carrera", font=("Arial", 10, "bold"))
+    label_Carrera.grid(row=8, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_carrera = ttk.Entry(ventana_registro, width=30)
+    entry_carrera.grid(row=9, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_CAR = ttk.Label(ventana_registro, text="Certificado Alumno Regular", font=("Arial", 10, "bold"))
+    label_CAR.grid(row=8, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_CAR = ttk.Entry(ventana_registro, width=30)
+    entry_CAR.grid(row=9, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    # Boton para Completar Registro y sacar informacion.
+    btn_registro4 = ttk.Button(ventana_registro, text="Registrar Estudiante", command=print_mock, width=30)
+    btn_registro4.grid(row=10, column=1, padx=(80,0), pady=(25,10))
+    
+
+    
+    
+    
+
 
 # ### 1er Registro - Registrar Prestamo Eventual
 # Btn para Registro 1
@@ -349,7 +442,7 @@ btn_registro2.grid(row=4, column=0, padx=10, pady=10)
 
 # ### 3er Registro - Registrar Estudiante
 # Btn para Registro 3
-btn_registro3 = ttk.Button(tab3, text="Registrar Estudiante", command=print_mock, width=40)
+btn_registro3 = ttk.Button(tab3, text="Registrar Estudiante", command=ventana_registro_estudiante, width=40)
 btn_registro3.grid(row=6, column=0, padx=10, pady=(40,10))
 
 
