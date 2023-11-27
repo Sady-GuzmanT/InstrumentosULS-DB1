@@ -68,15 +68,15 @@ SET rut = {rut_ingresado},
 -- Registrar Profesor.
 
 UPDATE profesor
-SET rut = {rut_ingresado},
+SET rut = '{rut_ingresado}',
     nombredepila = '{nombre_ingresado}',
     apellido1 = '{apellido1_ingresado}',
     apellido2 = '{apellido2_ingresado}';
 
 -- Registrar Instrumento.
 
-UPDATE estudiante
-SET rut = {rut_ingresado},
+UPDATE instrumento
+SET rut = '{rut_ingresado}',
     numserie = '{numserie_ingresado}',
     numinventario = '{numinventario_ingresado}',
     nombre = '{nombre_ingresado}',
@@ -112,7 +112,49 @@ SET codigocontrato = {codigo_ingresado},
  
  
  
- 
+ -- ---> Creacion de Tabla de prueba para Estas UPDATE queries.
+ -- Va a tener todos los campos necesarios para ingresar los datos de 
+ -- la tab 3, REGISTRO
+
+ CREATE TABLE Fechas_de_prestamos(
+    Column_Name DATA_TYPE PK/REFERENCES,
+);
+
+
+CREATE TABLE Test_Registros(
+    nombredepila VARCHAR(50), 
+    apellido1 VARCHAR(50), 
+    apellido2 VARCHAR(50), 
+    telefono VARCHAR(50), 
+    carrera VARCHAR(50), 
+    certificadoar VARCHAR(50), 
+    email VARCHAR(50), 
+    numserie VARCHAR(50), 
+    numinventario VARCHAR(50), 
+    nombre VARCHAR(50), 
+    marca VARCHAR(50), 
+    medidas VARCHAR(50), 
+    avaluo INTEGER, 
+    estado VARCHAR(50), 
+    rutest VARCHAR(50), 
+    rutenc VARCHAR(50), 
+    numserieinst VARCHAR(50), 
+    codigocontrato INTEGER, 
+    callealumno VARCHAR(50), 
+    numcallealumno INTEGER, 
+    comunaalumno VARCHAR(50), 
+    telefonoalumno VARCHAR(50), 
+    nombredirector VARCHAR(50), 
+    rutdirector VARCHAR(50), 
+    fechacontrato VARCHAR(50), 
+    fechainicio VARCHAR(50), 
+    fechatermino VARCHAR(50)
+);
+
+
+
+
+
  
 
 
