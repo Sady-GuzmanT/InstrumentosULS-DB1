@@ -353,71 +353,71 @@ def ventana_registro_estudiante():
     
     # Agrega labels y TextEntries para cada campo.
     
-    label_rut = ttk.Label(ventana_registro, text="RUT", font=("Arial", 10, "bold"))
-    label_rut.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    label_rut_estudiante = ttk.Label(ventana_registro, text="RUT", font=("Arial", 10, "bold"))
+    label_rut_estudiante.grid(row=2, column=0, padx=(15,0), pady=(20,0))
     
-    entry_rut = ttk.Entry(ventana_registro, width=30)
-    entry_rut.grid(row=3, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_nombre = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
-    label_nombre.grid(row=2, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_nombre = ttk.Entry(ventana_registro, width=30)
-    entry_nombre.grid(row=3, column=1, padx=(80,0), pady=(0,10))
+    entry_rut_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_rut_estudiante.grid(row=3, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_nombre_estudiante = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
+    label_nombre_estudiante.grid(row=2, column=1, padx=(80,0), pady=(20,0))
     
-    
-    label_app1 = ttk.Label(ventana_registro, text="Apelido Paterno", font=("Arial", 10, "bold"))
-    label_app1.grid(row=4, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_app1 = ttk.Entry(ventana_registro, width=30)
-    entry_app1.grid(row=5, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_app2 = ttk.Label(ventana_registro, text="Apelido Materno", font=("Arial", 10, "bold"))
-    label_app2.grid(row=4, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_app2 = ttk.Entry(ventana_registro, width=30)
-    entry_app2.grid(row=5, column=1, padx=(80,0), pady=(0,10))
+    entry_nombre_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_nombre_estudiante.grid(row=3, column=1, padx=(80,0), pady=(0,10))
     
     
     
     
-    label_tel = ttk.Label(ventana_registro, text="Telefono", font=("Arial", 10, "bold"))
-    label_tel.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    label_app1_estudiante = ttk.Label(ventana_registro, text="Apelido Paterno", font=("Arial", 10, "bold"))
+    label_app1_estudiante.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    entry_tel = ttk.Entry(ventana_registro, width=30)
-    entry_tel.grid(row=7, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_mail = ttk.Label(ventana_registro, text="E-Mail", font=("Arial", 10, "bold"))
-    label_mail.grid(row=6, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_mail = ttk.Entry(ventana_registro, width=30)
-    entry_mail.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    entry_app1_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_app1_estudiante.grid(row=5, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_app2_estudiante = ttk.Label(ventana_registro, text="Apelido Materno", font=("Arial", 10, "bold"))
+    label_app2_estudiante.grid(row=4, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_app2_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_app2_estudiante.grid(row=5, column=1, padx=(80,0), pady=(0,10))
     
     
-    label_Carrera = ttk.Label(ventana_registro, text="Carrera", font=("Arial", 10, "bold"))
-    label_Carrera.grid(row=8, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_carrera = ttk.Entry(ventana_registro, width=30)
-    entry_carrera.grid(row=9, column=0, padx=(15,0), pady=(0,10))
     
     
-    label_CAR = ttk.Label(ventana_registro, text="Certificado Alumno Regular", font=("Arial", 10, "bold"))
-    label_CAR.grid(row=8, column=1, padx=(80,0), pady=(20,0))
+    label_tel_estudiante = ttk.Label(ventana_registro, text="Telefono", font=("Arial", 10, "bold"))
+    label_tel_estudiante.grid(row=6, column=0, padx=(15,0), pady=(20,0))
     
-    entry_CAR = ttk.Entry(ventana_registro, width=30)
-    entry_CAR.grid(row=9, column=1, padx=(80,0), pady=(0,10))
+    entry_tel_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_tel_estudiante.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_mail_estudiante = ttk.Label(ventana_registro, text="E-Mail", font=("Arial", 10, "bold"))
+    label_mail_estudiante.grid(row=6, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_mail_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_mail_estudiante.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    label_Carrera_estudiante = ttk.Label(ventana_registro, text="Carrera", font=("Arial", 10, "bold"))
+    label_Carrera_estudiante.grid(row=8, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_carrera_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_carrera_estudiante.grid(row=9, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_CAR_estudiante = ttk.Label(ventana_registro, text="Certificado Alumno Regular", font=("Arial", 10, "bold"))
+    label_CAR_estudiante.grid(row=8, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_CAR_estudiante = ttk.Entry(ventana_registro, width=30)
+    entry_CAR_estudiante.grid(row=9, column=1, padx=(80,0), pady=(0,10))
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro4 = ttk.Button(ventana_registro, text="Registrar Estudiante", command=print_mock, width=30)
-    btn_registro4.grid(row=10, column=1, padx=(80,0), pady=(25,10))
+    btn_registro_estudiante = ttk.Button(ventana_registro, text="Registrar Estudiante", command=print_mock, width=30)
+    btn_registro_estudiante.grid(row=10, column=1, padx=(80,0), pady=(25,10))
     
     
 
@@ -441,40 +441,40 @@ def ventana_registro_profesor():
     
     # Agrega labels y TextEntries para cada campo.
     
-    label_rut = ttk.Label(ventana_registro, text="RUT", font=("Arial", 10, "bold"))
-    label_rut.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    label_rut_profesor = ttk.Label(ventana_registro, text="RUT", font=("Arial", 10, "bold"))
+    label_rut_profesor.grid(row=2, column=0, padx=(15,0), pady=(20,0))
     
-    entry_rut = ttk.Entry(ventana_registro, width=30)
-    entry_rut.grid(row=3, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_nombre = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
-    label_nombre.grid(row=2, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_nombre = ttk.Entry(ventana_registro, width=30)
-    entry_nombre.grid(row=3, column=1, padx=(80,0), pady=(0,10))
+    entry_rut_profesor = ttk.Entry(ventana_registro, width=30)
+    entry_rut_profesor.grid(row=3, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_nombre_profesor = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
+    label_nombre_profesor.grid(row=2, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_nombre_profesor = ttk.Entry(ventana_registro, width=30)
+    entry_nombre_profesor.grid(row=3, column=1, padx=(80,0), pady=(0,10))
     
     
-    label_app1 = ttk.Label(ventana_registro, text="Apelido Paterno", font=("Arial", 10, "bold"))
-    label_app1.grid(row=4, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_app1 = ttk.Entry(ventana_registro, width=30)
-    entry_app1.grid(row=5, column=0, padx=(15,0), pady=(0,10))
     
     
-    label_app2 = ttk.Label(ventana_registro, text="Apelido Materno", font=("Arial", 10, "bold"))
-    label_app2.grid(row=4, column=1, padx=(80,0), pady=(20,0))
+    label_app1_profesor = ttk.Label(ventana_registro, text="Apelido Paterno", font=("Arial", 10, "bold"))
+    label_app1_profesor.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    entry_app2 = ttk.Entry(ventana_registro, width=30)
-    entry_app2.grid(row=5, column=1, padx=(80,0), pady=(0,10))
+    entry_app1_profesor = ttk.Entry(ventana_registro, width=30)
+    entry_app1_profesor.grid(row=5, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_app2_profesor = ttk.Label(ventana_registro, text="Apelido Materno", font=("Arial", 10, "bold"))
+    label_app2_profesor.grid(row=4, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_app2_profesor = ttk.Entry(ventana_registro, width=30)
+    entry_app2_profesor.grid(row=5, column=1, padx=(80,0), pady=(0,10))
     
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro4 = ttk.Button(ventana_registro, text="Registrar Profesor", command=print_mock, width=30)
-    btn_registro4.grid(row=10, column=1, padx=(80,0), pady=(180,10))
+    btn_registro_profesor = ttk.Button(ventana_registro, text="Registrar Profesor", command=print_mock, width=30)
+    btn_registro_profesor.grid(row=10, column=1, padx=(80,0), pady=(180,10))
     
     
 
@@ -499,66 +499,66 @@ def ventana_registro_instrumento():
     
     # Agrega labels y TextEntries para cada campo.
     
-    label_rut = ttk.Label(ventana_registro, text="Numero de Serie", font=("Arial", 10, "bold"))
-    label_rut.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    label_num_serie_instrumento = ttk.Label(ventana_registro, text="Numero de Serie", font=("Arial", 10, "bold"))
+    label_num_serie_instrumento.grid(row=2, column=0, padx=(15,0), pady=(20,0))
     
-    entry_rut = ttk.Entry(ventana_registro, width=30)
-    entry_rut.grid(row=3, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_nombre = ttk.Label(ventana_registro, text="Numero de Inventario", font=("Arial", 10, "bold"))
-    label_nombre.grid(row=2, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_nombre = ttk.Entry(ventana_registro, width=30)
-    entry_nombre.grid(row=3, column=1, padx=(80,0), pady=(0,10))
+    entry_num_serie_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_num_serie_instrumento.grid(row=3, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_num_inv_instrumento = ttk.Label(ventana_registro, text="Numero de Inventario", font=("Arial", 10, "bold"))
+    label_num_inv_instrumento.grid(row=2, column=1, padx=(80,0), pady=(20,0))
     
-    
-    label_app1 = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
-    label_app1.grid(row=4, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_app1 = ttk.Entry(ventana_registro, width=30)
-    entry_app1.grid(row=5, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_app2 = ttk.Label(ventana_registro, text="Marca", font=("Arial", 10, "bold"))
-    label_app2.grid(row=4, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_app2 = ttk.Entry(ventana_registro, width=30)
-    entry_app2.grid(row=5, column=1, padx=(80,0), pady=(0,10))
+    entry_num_inv_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_num_inv_instrumento.grid(row=3, column=1, padx=(80,0), pady=(0,10))
     
     
     
     
-    label_tel = ttk.Label(ventana_registro, text="Medidas", font=("Arial", 10, "bold"))
-    label_tel.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    label_nombre_instrumento = ttk.Label(ventana_registro, text="Nombre", font=("Arial", 10, "bold"))
+    label_nombre_instrumento.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    entry_tel = ttk.Entry(ventana_registro, width=30)
-    entry_tel.grid(row=7, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_mail = ttk.Label(ventana_registro, text="Avaluo", font=("Arial", 10, "bold"))
-    label_mail.grid(row=6, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_mail = ttk.Entry(ventana_registro, width=30)
-    entry_mail.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    entry_nombre_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_nombre_instrumento.grid(row=5, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_marca_instrumento = ttk.Label(ventana_registro, text="Marca", font=("Arial", 10, "bold"))
+    label_marca_instrumento.grid(row=4, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_marca_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_marca_instrumento.grid(row=5, column=1, padx=(80,0), pady=(0,10))
     
     
-    label_Carrera = ttk.Label(ventana_registro, text="Estado", font=("Arial", 10, "bold"))
-    label_Carrera.grid(row=8, column=0, padx=(15,0), pady=(20,0))
     
-    entry_carrera = ttk.Entry(ventana_registro, width=30)
-    entry_carrera.grid(row=9, column=0, padx=(15,0), pady=(0,10))
+    
+    label_medidas_instrumento = ttk.Label(ventana_registro, text="Medidas", font=("Arial", 10, "bold"))
+    label_medidas_instrumento.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_medidas_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_medidas_instrumento.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_avaluo_instrumento = ttk.Label(ventana_registro, text="Avaluo", font=("Arial", 10, "bold"))
+    label_avaluo_instrumento.grid(row=6, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_avaluo_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_avaluo_instrumento.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    label_estado_instrumento = ttk.Label(ventana_registro, text="Estado", font=("Arial", 10, "bold"))
+    label_estado_instrumento.grid(row=8, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_estado_instrumento = ttk.Entry(ventana_registro, width=30)
+    entry_estado_instrumento.grid(row=9, column=0, padx=(15,0), pady=(0,10))
     
     
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro4 = ttk.Button(ventana_registro, text="Registrar Instrumento", command=print_mock, width=30)
-    btn_registro4.grid(row=10, column=1, padx=(80,0), pady=(25,10))
+    btn_registro_instrumento = ttk.Button(ventana_registro, text="Registrar Instrumento", command=print_mock, width=30)
+    btn_registro_instrumento.grid(row=10, column=1, padx=(80,0), pady=(25,10))
     
 
 
@@ -582,55 +582,55 @@ def ventana_registro_eventual():
     
     # Agrega labels y TextEntries para cada campo.
     
-    label_rut = ttk.Label(ventana_registro, text="Rut Estudiante", font=("Arial", 10, "bold"))
-    label_rut.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    label_rut_prestamo_eventual = ttk.Label(ventana_registro, text="Rut Estudiante", font=("Arial", 10, "bold"))
+    label_rut_prestamo_eventual.grid(row=2, column=0, padx=(15,0), pady=(20,0))
     
-    entry_rut = ttk.Entry(ventana_registro, width=30)
-    entry_rut.grid(row=3, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_nombre = ttk.Label(ventana_registro, text="Rut Encargado", font=("Arial", 10, "bold"))
-    label_nombre.grid(row=2, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_nombre = ttk.Entry(ventana_registro, width=30)
-    entry_nombre.grid(row=3, column=1, padx=(80,0), pady=(0,10))
+    entry_rut_prestamo_eventual = ttk.Entry(ventana_registro, width=30)
+    entry_rut_prestamo_eventual.grid(row=3, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_rut2_prestamo_eventual = ttk.Label(ventana_registro, text="Rut Encargado", font=("Arial", 10, "bold"))
+    label_rut2_prestamo_eventual.grid(row=2, column=1, padx=(80,0), pady=(20,0))
     
-    
-    label_app1 = ttk.Label(ventana_registro, text="Numero Serie de Instrumento", font=("Arial", 10, "bold"))
-    label_app1.grid(row=4, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_app1 = ttk.Entry(ventana_registro, width=30)
-    entry_app1.grid(row=5, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_app2 = ttk.Label(ventana_registro, text="Fecha Inicio", font=("Arial", 10, "bold"))
-    label_app2.grid(row=4, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_app2 = ttk.Entry(ventana_registro, width=30)
-    entry_app2.grid(row=5, column=1, padx=(80,0), pady=(0,10))
+    entry_rut2_prestamo_eventual = ttk.Entry(ventana_registro, width=30)
+    entry_rut2_prestamo_eventual.grid(row=3, column=1, padx=(80,0), pady=(0,10))
     
     
     
     
-    label_tel = ttk.Label(ventana_registro, text="Fecha Termino", font=("Arial", 10, "bold"))
-    label_tel.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    label_numserie_eventual = ttk.Label(ventana_registro, text="Numero Serie de Instrumento", font=("Arial", 10, "bold"))
+    label_numserie_eventual.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    entry_tel = ttk.Entry(ventana_registro, width=30)
-    entry_tel.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    entry_numserie_eventual = ttk.Entry(ventana_registro, width=30)
+    entry_numserie_eventual.grid(row=5, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_fechainicio_eventual = ttk.Label(ventana_registro, text="Fecha Inicio", font=("Arial", 10, "bold"))
+    label_fechainicio_eventual.grid(row=4, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_fechainicio_eventual = ttk.Entry(ventana_registro, width=30)
+    entry_fechainicio_eventual.grid(row=5, column=1, padx=(80,0), pady=(0,10))
     
     
     
-    label_tel = ttk.Label(ventana_registro, text="Formato Fechas: YYYY-MM-DD", font=("Arial", 8, "bold"))
-    label_tel.grid(row=8, column=0, padx=(15,0), pady=(20,0))
+    
+    label_fechatermino_eventual = ttk.Label(ventana_registro, text="Fecha Termino", font=("Arial", 10, "bold"))
+    label_fechatermino_eventual.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_fechatermino_eventual = ttk.Entry(ventana_registro, width=30)
+    entry_fechatermino_eventual.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    
+    label_info = ttk.Label(ventana_registro, text="Formato Fechas: YYYY-MM-DD", font=("Arial", 8, "bold"))
+    label_info.grid(row=8, column=0, padx=(15,0), pady=(20,0))
     
     
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro4 = ttk.Button(ventana_registro, text="Registrar Prestamo", command=print_mock, width=30)
-    btn_registro4.grid(row=10, column=1, padx=(80,0), pady=(75,10))
+    btn_registro_eventual = ttk.Button(ventana_registro, text="Registrar Prestamo", command=print_mock, width=30)
+    btn_registro_eventual.grid(row=10, column=1, padx=(80,0), pady=(75,10))
     
 
 
@@ -655,85 +655,85 @@ def ventana_registro_anual():
     
     # Agrega labels y TextEntries para cada campo.
     
-    label_rut = ttk.Label(ventana_registro, text="Codigo Contrato", font=("Arial", 10, "bold"))
-    label_rut.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    label_codigo_anual = ttk.Label(ventana_registro, text="Codigo Contrato", font=("Arial", 10, "bold"))
+    label_codigo_anual.grid(row=2, column=0, padx=(15,0), pady=(20,0))
     
-    entry_rut = ttk.Entry(ventana_registro, width=30)
-    entry_rut.grid(row=3, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_nombre = ttk.Label(ventana_registro, text="Calle", font=("Arial", 10, "bold"))
-    label_nombre.grid(row=2, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_nombre = ttk.Entry(ventana_registro, width=30)
-    entry_nombre.grid(row=3, column=1, padx=(80,0), pady=(0,10))
+    entry_codigo_anual = ttk.Entry(ventana_registro, width=30)
+    entry_codigo_anual.grid(row=3, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_calle_anual = ttk.Label(ventana_registro, text="Calle", font=("Arial", 10, "bold"))
+    label_calle_anual.grid(row=2, column=1, padx=(80,0), pady=(20,0))
     
-    
-    label_app1 = ttk.Label(ventana_registro, text="Numero Calle", font=("Arial", 10, "bold"))
-    label_app1.grid(row=4, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_app1 = ttk.Entry(ventana_registro, width=30)
-    entry_app1.grid(row=5, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_app2 = ttk.Label(ventana_registro, text="Comuna", font=("Arial", 10, "bold"))
-    label_app2.grid(row=4, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_app2 = ttk.Entry(ventana_registro, width=30)
-    entry_app2.grid(row=5, column=1, padx=(80,0), pady=(0,10))
+    entry_calle_anual = ttk.Entry(ventana_registro, width=30)
+    entry_calle_anual.grid(row=3, column=1, padx=(80,0), pady=(0,10))
     
     
     
     
-    label_tel = ttk.Label(ventana_registro, text="Telefono", font=("Arial", 10, "bold"))
-    label_tel.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    label_numcalle_anual = ttk.Label(ventana_registro, text="Numero Calle", font=("Arial", 10, "bold"))
+    label_numcalle_anual.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    entry_tel = ttk.Entry(ventana_registro, width=30)
-    entry_tel.grid(row=7, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_mail = ttk.Label(ventana_registro, text="Nombre Director", font=("Arial", 10, "bold"))
-    label_mail.grid(row=6, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_mail = ttk.Entry(ventana_registro, width=30)
-    entry_mail.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    entry_numcalle_anual = ttk.Entry(ventana_registro, width=30)
+    entry_numcalle_anual.grid(row=5, column=0, padx=(15,0), pady=(0,10))
     
     
+    label_comuna_anual = ttk.Label(ventana_registro, text="Comuna", font=("Arial", 10, "bold"))
+    label_comuna_anual.grid(row=4, column=1, padx=(80,0), pady=(20,0))
     
-    
-    label_Carrera = ttk.Label(ventana_registro, text="Rut Director", font=("Arial", 10, "bold"))
-    label_Carrera.grid(row=8, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_carrera = ttk.Entry(ventana_registro, width=30)
-    entry_carrera.grid(row=9, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_CAR = ttk.Label(ventana_registro, text="Fecha Inicio", font=("Arial", 10, "bold"))
-    label_CAR.grid(row=8, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_CAR = ttk.Entry(ventana_registro, width=30)
-    entry_CAR.grid(row=9, column=1, padx=(80,0), pady=(0,10))
-    
-    label_tel = ttk.Label(ventana_registro, text="Fecha Termino", font=("Arial", 10, "bold"))
-    label_tel.grid(row=10, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_tel = ttk.Entry(ventana_registro, width=30)
-    entry_tel.grid(row=11, column=0, padx=(15,0), pady=(0,10))
-    
-    
-    label_mail = ttk.Label(ventana_registro, text="Fecha Contrato", font=("Arial", 10, "bold"))
-    label_mail.grid(row=10, column=1, padx=(80,0), pady=(20,0))
-    
-    entry_mail = ttk.Entry(ventana_registro, width=30)
-    entry_mail.grid(row=11, column=1, padx=(80,0), pady=(0,10))
+    entry_comuna_anual = ttk.Entry(ventana_registro, width=30)
+    entry_comuna_anual.grid(row=5, column=1, padx=(80,0), pady=(0,10))
     
     
     
     
-    btn_registro4 = ttk.Button(ventana_registro, text="Registrar Prestamo", command=print_mock, width=27)
-    btn_registro4.grid(row=14, column=1, padx=(83, 0), pady=(10, 10))
+    label_tel_anual = ttk.Label(ventana_registro, text="Telefono", font=("Arial", 10, "bold"))
+    label_tel_anual.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_tel_anual = ttk.Entry(ventana_registro, width=30)
+    entry_tel_anual.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_nombre_director_anual = ttk.Label(ventana_registro, text="Nombre Director", font=("Arial", 10, "bold"))
+    label_nombre_director_anual.grid(row=6, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_nombre_director_anual = ttk.Entry(ventana_registro, width=30)
+    entry_nombre_director_anual.grid(row=7, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    label_rut_director_anual = ttk.Label(ventana_registro, text="Rut Director", font=("Arial", 10, "bold"))
+    label_rut_director_anual.grid(row=8, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_rut_director_anual = ttk.Entry(ventana_registro, width=30)
+    entry_rut_director_anual.grid(row=9, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_fechainicio_anual = ttk.Label(ventana_registro, text="Fecha Inicio", font=("Arial", 10, "bold"))
+    label_fechainicio_anual.grid(row=8, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_fechainicio_anual = ttk.Entry(ventana_registro, width=30)
+    entry_fechainicio_anual.grid(row=9, column=1, padx=(80,0), pady=(0,10))
+    
+    label_fechatermino_anual = ttk.Label(ventana_registro, text="Fecha Termino", font=("Arial", 10, "bold"))
+    label_fechatermino_anual.grid(row=10, column=0, padx=(15,0), pady=(20,0))
+    
+    entry_fechatermino_anual = ttk.Entry(ventana_registro, width=30)
+    entry_fechatermino_anual.grid(row=11, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    label_fechacontrato_anual = ttk.Label(ventana_registro, text="Fecha Contrato", font=("Arial", 10, "bold"))
+    label_fechacontrato_anual.grid(row=10, column=1, padx=(80,0), pady=(20,0))
+    
+    entry_fechacontrato_anual = ttk.Entry(ventana_registro, width=30)
+    entry_fechacontrato_anual.grid(row=11, column=1, padx=(80,0), pady=(0,10))
+    
+    
+    
+    
+    btn_registro_anual = ttk.Button(ventana_registro, text="Registrar Prestamo", command=print_mock, width=27)
+    btn_registro_anual.grid(row=14, column=1, padx=(83, 0), pady=(10, 10))
    
     
 
