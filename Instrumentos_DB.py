@@ -13,15 +13,34 @@ from PIL import Image, ImageTk
       NOTA: Hay un elemento de 'tk.entry', Esta comentado, pero se mantiene por conveniencia.
     
     
-    # Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo.
+    # Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo ??
     
     # Agregar Tabs para separar funcionalidades. (Por ahora: Home, Consulta, Registro) --  > Listo. 
-                Falta agregar funciones a registra.
-                # Agregar funciones de registro de prestamos. (y de estudiante?)
+                Falta agregar funciones a tab3: REGISTRA.
+                    UI de tab3 - LISTO
+                    UI de ventanas de opciones tab 3 - Pendiente
+                    Extraer informacion de ventanas tab 3 - Pendiente
+                    Funciones de Registro que usen la informacion extraida - Pendiente
+                    Update a las tablas - Pendiente
     
    
     # Agregar visualizacion de consulta, Puede ser cantidad de prestamos o cant tipos instrumentos
         prestados mensuales. (Mathplot lib??)
+        
+    # TAB 3 Registros -->
+        - Agregar funciones de registro para las 5 opciones.
+        - Agregar respectivas ventanas a cada boton de registro.
+            - Agregar elementos de UI a cada ventana.
+        - Agregar fetch de informacion en ventanas de registro hacia
+            las funciones de registro.
+        * Por ahora todas estas funciones van a afectar la tabla
+            'test_registros', Que fue creada para probar si los UPDATE
+            que se crearon para la TAB3 funcionan correctamente.
+            Cuando todo este OK, Se van a modificar las funcioens para
+            que los cambios se hagan en las tablas correctas.
+        * Confirmar con equipo si las UPDATES creadas son todo lo necesario
+            para el correcto funcionamiento, O si falta agregar cosas.
+        
 '''
 
 
@@ -311,7 +330,7 @@ tab2.columnconfigure(1, weight=1)
 # ### Tab3 | UI de REGISTROS --->
 
 def print_mock():
-    print("hola esto es un mock")
+    print("hola esto es una mock func")
 
 # ### 1er Registro - Registrar Prestamo Eventual
 # Btn para Registro 1
@@ -352,7 +371,14 @@ tab3.columnconfigure(0, weight=1)
 tab3.columnconfigure(0, weight=1)
 
 
-# Fin codigo, Las lineas siguientes tienen que estar al final del archivo para que funcione correctamente.
+
+# ### Ventanas que se abren desde TAB3 REGISTRA
+
+
+
+
+
+# ### Fin codigo, Las lineas siguientes tienen que estar al final del archivo para que funcione correctamente.
 
 # Inicia y refresca la ventana de la UI.
 root.mainloop()
