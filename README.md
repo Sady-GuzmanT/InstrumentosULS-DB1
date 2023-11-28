@@ -3,7 +3,7 @@
 Relacionado a Asignatura Base de Datos 1 - uls.
 
 
-#### Version_final.py -> Version que se va a entregar y presentar. (Hito 3)<br>
+#### Version_final.py -> Version que se entrega y presenta para (Hito 3)<br>
 #### Instrumentos_DB.py -> Version con todas las funcionalidades. (Hito 4) {En Desarrollo}<br>
 
 
