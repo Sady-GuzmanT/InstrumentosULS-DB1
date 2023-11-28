@@ -220,6 +220,41 @@ def execute_combobox_query4():
         print(error)
         messagebox.showerror("Error", str(error))
 
+# ### UPDATES para registros en las ventanas que se abren desde TAB3
+
+def registrar_profesor():
+    rut = entry_rut_profesor.get()
+    nombre = entry_nombre_profesor.get()
+    app1 = entry_app1_profesor.get()
+    app2 = entry_app2_profesor.get()
+    
+    print("REGISTRA PROFESOR CON ESTOS DATOS")
+    print("RUT:", rut)
+    print("Nombre:", nombre)
+    print("App1:", app1)
+    print("App2:", app2)
+    
+    # Por ahora se esta testeando. Ya se logra actualizar valores hacia la tabla, Hay que copiar
+    # el bloque de UPDATE y hacerlo para cada tabla que tiene que poder hacer UPDATE.
+    
+    
+    query_update = f"INSERT INTO Test_Registros (rut_profesor, nombredepila, apellido1, apellido2)\
+                        VALUES ('{rut}', '{nombre}', '{app1}', '{app2}')"
+    
+    update_cursor = connection.cursor() # Cursor para hacer update * TEST
+    
+    try:
+        update_cursor.execute(query_update)
+        connection.commit()
+        update_cursor.close()
+        messagebox.showinfo("Success", "Registro actualizado exitosamente")
+        print('Exito: Se actualizo el registro con: ')
+        print(f"INSERT INTO Test_Registros (rut_profesor, nombredepila, apellido1, apellido2)\
+                        VALUES ('{rut}', '{nombre}', '{app1}', '{app2}')")
+    except Exception as error:
+        print('ERROR EXCEPT Combobox rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
 
 
 
@@ -422,6 +457,10 @@ def ventana_registro_estudiante():
     
 
 def ventana_registro_profesor():
+    # Hace las variables globales para poder acceder desde la ventana principal.
+    # Quiza hay una mejor manera de hacer esto. Por ahora se usa GLOBAL
+    global entry_rut_profesor, entry_nombre_profesor, entry_app1_profesor, entry_app2_profesor
+    
     # Crea la ventana, La hace de tamano fijo
     ventana_registro = tk.Toplevel(root)
     ventana_registro.title("Registro de Profesor")
@@ -473,7 +512,7 @@ def ventana_registro_profesor():
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro_profesor = ttk.Button(ventana_registro, text="Registrar Profesor", command=print_mock, width=30)
+    btn_registro_profesor = ttk.Button(ventana_registro, text="Registrar Profesor", command=registrar_profesor, width=30)
     btn_registro_profesor.grid(row=10, column=1, padx=(80,0), pady=(180,10))
     
     
@@ -790,5 +829,6 @@ tab3.columnconfigure(0, weight=1)
 root.mainloop()
 
 # Cierra la connection y el cursor al salir de la aplicación.
+
 crsr.close()
 connection.close()
