@@ -55,7 +55,7 @@ SET VALUE1 = 123,
 -- Registrar Estudiante.
 
 UPDATE estudiante
-SET rut = {rut_ingresado},
+SET rut = '{rut_ingresado}',
     nombredepila = '{nombre_ingresado}',
     apellido1 = '{apellido1_ingresado}',
     apellido2 = '{apellido2_ingresado}',
@@ -76,9 +76,8 @@ SET rut = '{rut_ingresado}',
 -- Registrar Instrumento.
 
 UPDATE instrumento
-SET rut = '{rut_ingresado}',
-    numserie = '{numserie_ingresado}',
-    numinventario = '{numinventario_ingresado}',
+SET numserie = '{numserie_ingresado}',
+    numinventario = '{num_inventario_ingresado}',
     nombre = '{nombre_ingresado}',
     marca = '{marca_ingresada}',
     medidas = '{medida_ingresada}',
