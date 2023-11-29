@@ -61,11 +61,12 @@ crsr = connection.cursor()
 
 #root = ttk.Window(themename = 'yeti') # Tema claro
 root = ttk.Window(themename = 'superhero') # temas oscuros: superhero, Darkly, Vapor
-root.geometry("550x440") # Tamano ventana fijo -> Con linea siguiente no es necesario. Se comenta
+root.geometry("660x450") # Tamano ventana fijo -> Con linea siguiente no es necesario. Se comenta
 root.resizable(False, False) # Hace ventana no modificable. Ahorra hacerla dinamica.
 root.title("Base de Datos Instrumentos")
 
-
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
 
 # Creacion NOTEBOOK TABS 
 
@@ -298,11 +299,11 @@ image_label.grid(row=3, column=10, padx=10, pady=10)
 
 # ### 1ra consulta - VER ESTUDIANTES
 # Label para combobox 1
-label_combobox1 = ttk.Label(tab2, text="Ver Estudiantes", font=("Arial", 9, "bold"))
+label_combobox1 = ttk.Label(tab2, text="Registro de Estudiantes", font=("Arial", 9, "bold"))
 label_combobox1.grid(row=1, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 1
-execute_combobox_button1 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query1, width=20)
+execute_combobox_button1 = ttk.Button(tab2, text="Ver Estudiantes", command=execute_combobox_query1, width=20)
 execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 
 
@@ -310,7 +311,7 @@ execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 
 # ### 2da consulta - VER PRESTAMOS
 # Label para combobox 2
-label_combobox2 = ttk.Label(tab2, text="Ver Prestamos", font=("Arial", 9, "bold"))
+label_combobox2 = ttk.Label(tab2, text="Tipo de Préstamo", font=("Arial", 9, "bold"))
 label_combobox2.grid(row=3, column=0, padx=10, pady=10)
 
 # Combobox2
@@ -319,7 +320,7 @@ combobox_query2 = ttk.Combobox(tab2, values=combobox_query_values2)
 combobox_query2.grid(row=4, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 2
-execute_combobox_button2 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query2, width=20)
+execute_combobox_button2 = ttk.Button(tab2, text="Ver Préstamos", command=execute_combobox_query2, width=20)
 execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
 
@@ -327,7 +328,7 @@ execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 
 # ### 3ra consulta - VER INSTRUMENTOS
 # Label para combobox 3
-label_combobox3 = ttk.Label(tab2, text="Ver Instrumentos", font=("Arial", 9, "bold"))
+label_combobox3 = ttk.Label(tab2, text="Tipos de Instrumentos", font=("Arial", 9, "bold"))
 label_combobox3.grid(row=5, column=0, padx=10, pady=10)
 
 # Combobox 3
@@ -336,7 +337,7 @@ combobox_query3 = ttk.Combobox(tab2, values=combobox_query_values3)
 combobox_query3.grid(row=6, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 3
-execute_combobox_button3 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query3, width=20)
+execute_combobox_button3 = ttk.Button(tab2, text="Ver Instrumentos", command=execute_combobox_query3, width=20)
 execute_combobox_button3.grid(row=6, column=1, padx=10, pady=10)
 
 
@@ -352,7 +353,7 @@ combobox_query4 = ttk.Entry(tab2, width=25)
 combobox_query4.grid(row=8, column=0, padx=10, pady=10)
 
 # Btn 'Execute Combobox Query' 4
-execute_combobox_button4 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query4, width=20)
+execute_combobox_button4 = ttk.Button(tab2, text="Ver Préstamos", command=execute_combobox_query4, width=20)
 execute_combobox_button4.grid(row=8, column=1, padx=10, pady=10)
 
 # Centra elementos de Tab1 - Consulta
@@ -372,7 +373,7 @@ def ventana_registro_estudiante():
     # Crea la ventana, La hace de tamano fijo
     ventana_registro = tk.Toplevel(root)
     ventana_registro.title("Registro de Estudiante")
-    ventana_registro.geometry("500x460")
+    ventana_registro.geometry("620x500")
     ventana_registro.resizable(False, False)
     
     # Titulo dentro de ventana
@@ -464,7 +465,7 @@ def ventana_registro_profesor():
     # Crea la ventana, La hace de tamano fijo
     ventana_registro = tk.Toplevel(root)
     ventana_registro.title("Registro de Profesor")
-    ventana_registro.geometry("500x460")
+    ventana_registro.geometry("620x500")
     ventana_registro.resizable(False, False)
     
     # Titulo dentro de ventana
@@ -522,7 +523,7 @@ def ventana_registro_instrumento():
     # Crea la ventana, La hace de tamano fijo
     ventana_registro = tk.Toplevel(root)
     ventana_registro.title("Registro de Instrumento")
-    ventana_registro.geometry("500x460")
+    ventana_registro.geometry("620x500")
     ventana_registro.resizable(False, False)
     
     # Titulo dentro de ventana
@@ -605,7 +606,7 @@ def ventana_registro_eventual():
     # Crea la ventana, La hace de tamano fijo
     ventana_registro = tk.Toplevel(root)
     ventana_registro.title("Registro de Eventual")
-    ventana_registro.geometry("500x460")
+    ventana_registro.geometry("620x500")
     ventana_registro.resizable(False, False)
     
     # Titulo dentro de ventana
@@ -678,7 +679,7 @@ def ventana_registro_anual():
     # Crea la ventana, La hace de tamano fijo
     ventana_registro = tk.Toplevel(root)
     ventana_registro.title("Registro de Prestamo Anual")
-    ventana_registro.geometry("500x515")
+    ventana_registro.geometry("620x570")
     ventana_registro.resizable(False, False)
     
     # Titulo dentro de ventana
