@@ -18,7 +18,6 @@ import matplotlib.pyplot as plt
                 
     NO SE SABE:
         - Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo ??
-        - Agregar grafico de barras con prestamos de tipos de instrumentos por mes. [Usuario elige fecha]
         
     # TAB 3 Registros -->
         *** Por ahora funciona sobre la tabla 'test_registros'
@@ -400,6 +399,41 @@ def query_graficar_stock():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        
+
+def query_graficar_prestamos():
+    print("Se llama query graficar prestamos")
+    
+    tab5_anho = tab5_combo_anho.get()
+    tab5_mes = tab5_combo_mes.get()
+
+    if tab5_anho is None or tab5_mes is None:
+            print("Comboboxesde tab5 estan vacias")
+            messagebox.showerror("Ingrese fecha")
+    
+    query_string = f"SELECT i.nombre AS instrument_name, COUNT(*) AS lending_count\
+                        FROM solicita s\
+                        JOIN instrumento i ON s.numserieinst = i.numserie\
+                        WHERE EXTRACT(MONTH FROM s.fechasolicitud) = {tab5_mes}\
+                        AND EXTRACT(YEAR FROM s.fechasolicitud) = {tab5_anho}\
+                        GROUP BY i.nombre\
+                        ORDER BY lending_count DESC"
+    
+    
+    try:
+        if tab5_anho is None or tab5_mes is None:
+            print("Comboboxesde tab5 estan vacias")
+            messagebox.showerror("Ingrese fecha")
+        else:
+            crsr.execute(query_string)
+            data_grafico_prestamos = crsr.fetchall()
+            # display_results_in_window(data_grafico_stock) # Se muestra el resultado stock en tabla
+            grafico_prestamos(data_grafico_prestamos)
+    except Exception as error:
+        print('ERROR EXCEPT Combobox rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
         
 
 
@@ -1220,14 +1254,42 @@ def grafico_stock(data):
     plt.title('Stock Central Instrumentos')
     plt.show()
 
+
+def grafico_prestamos(data):
+    print("grafico_prestamos llamado")
+    
+    tab5_anho = tab5_combo_anho.get()
+    tab5_mes = tab5_combo_mes.get()
+    
+    
+    instrument_names, lending_counts = zip(*data)
+    
+    
+    plt.figure(figsize=(8, 5))
+    
+    plt.bar(instrument_names, lending_counts, color='blue')
+    
+    string_titulo_grafico_prestamos = f"Cantidad de prestamos en {tab5_anho}-{tab5_mes}"
+    plt.title(string_titulo_grafico_prestamos)
+    plt.xlabel('Tipo de Instrumento')
+    plt.ylabel('Cantidad de Prestamos')
+    plt.xticks(rotation=45, ha='right')
+    
+    plt.yticks(range(max(lending_counts) + 1)) # Hace eje vertical tener valores enteros
+
+    
+    plt.tight_layout()
+    plt.show()
     
 
 
 # ### Elementos UI de pestana 5.
 
+# GRAFICO 1
+
 tab5_label_descripcion_grafico1 = ttk.Label(
     tab5,
-    text="Visualizar Central de Instrumentos",
+    text="Visualizar Stock Central de Instrumentos",
     font=("BlinkMacSystemFont", 9, "bold"),
     foreground="White",
     padding=(10, 10),
@@ -1235,9 +1297,32 @@ tab5_label_descripcion_grafico1 = ttk.Label(
 
 tab5_label_descripcion_grafico1.grid(row=1, column=0, padx=10, pady=10, columnspan=20)
 
-tab5_btn_stock = ttk.Button(tab5, text="Visualizar", command=query_graficar_stock, width=25)
+tab5_btn_stock = ttk.Button(tab5, text="Visualizar Stock", command=query_graficar_stock, width=25)
 tab5_btn_stock.grid(row=2, column=0, padx=25, pady=(0, 15))
 
+# GRAFICO 2 
+
+tab5_label_descripcion_grafico2 = ttk.Label(
+    tab5,
+    text="Visualizar Prestamos Central de Instrumentos",
+    font=("BlinkMacSystemFont", 9, "bold"),
+    foreground="White",
+    padding=(10, 10),
+    )
+
+tab5_label_descripcion_grafico2.grid(row=3, column=0, padx=10, pady=10, columnspan=20)
+
+tab5_anho_valores = ["2023", "2022", "2021", "2020"]
+tab5_mes_valores = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+
+tab5_combo_anho = ttk.Combobox(tab5, values=tab5_anho_valores, width=10)
+tab5_combo_anho.grid(row=4, column=0, padx=(10,100), pady=(0,10))
+
+tab5_combo_mes = ttk.Combobox(tab5, values=tab5_mes_valores, width=10)
+tab5_combo_mes.grid(row=4, column=0, padx=(85,0), pady=(0,10))
+
+tab5_btn_prestamos = ttk.Button(tab5, text="Visualizar Prestamos", command=query_graficar_prestamos, width=25)
+tab5_btn_prestamos.grid(row=5, column=0, padx=(0,0), pady=(0, 0))
 
 
 
