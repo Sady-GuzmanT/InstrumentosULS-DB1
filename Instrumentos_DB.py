@@ -11,22 +11,17 @@ import matplotlib.pyplot as plt
     NOTA: ComboBox_Query1 se llama ComboBox pero es una Query fija, Se mantiene asi por orden.
                 
     NOTA: Hay un elemento de 'tk.entry', Esta comentado, pero se mantiene por conveniencia.
-    
-    NOTA: Por ahora todas estas funciones de REGISTRO van a afectar la tabla 'test_registros', Consultar
-          con equipo si las funciones de registros estan listas o falta agregar algo.
                 
                 
     NO SE SABE:
         - Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo ??
         
-    # TAB 3 Registros -->
-        *** Por ahora funciona sobre la tabla 'test_registros'
-            
-    
-    
-    TODO para llegar a version final, 1-2/dic
-    
-        - Hacer funciones de consulta para consultas_proyecto de la tab.4 - Faltan las Queries de marco
+        
+    TODO:
+        # TAB 3 Registros -->
+            *** Por ahora funciona sobre la tabla 'test_registros' -- CAMBIAR a tablas reales.
+            NOTA: Consultar con equipo si las funciones de registros estan listas o falta agregar algo.  
+        
         
                 
 '''
@@ -123,6 +118,7 @@ def execute_combobox_query1():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
 
 
 
@@ -142,6 +138,7 @@ def execute_combobox_query2():
         except Exception as error:
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
+            connection.rollback() # Arregla bloqueo de transaccion.
     else:
         query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento \
                     FROM Estudiante e \
@@ -155,6 +152,7 @@ def execute_combobox_query2():
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
             messagebox.showerror("Error", str(error))
+            connection.rollback() # Arregla bloqueo de transaccion.
 
 
 # Ejecuta query de grupo combobox 3. 'Ver Instrumento'
@@ -172,6 +170,7 @@ def execute_combobox_query3():
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
             messagebox.showerror("Error", str(error))
+            connection.rollback() # Arregla bloqueo de transaccion.
     elif selected_item == "Todos":
         query = f"SELECT * FROM instrumento"
         try:
@@ -182,6 +181,7 @@ def execute_combobox_query3():
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
             messagebox.showerror("Error", str(error))
+            connection.rollback() # Arregla bloqueo de transaccion.
     else:
         query = f"SELECT * FROM instrumento WHERE nombre = '{selected_item}'"
         try:
@@ -192,6 +192,7 @@ def execute_combobox_query3():
             print('ERROR EXCEPT Combobox rgt>> ')
             print(error)
             messagebox.showerror("Error", str(error))
+            connection.rollback() # Arregla bloqueo de transaccion.
 
 
 # Ejecuta query de grupo combobox 4. - Ver prestamos de estudiante especifico por rut
@@ -211,6 +212,7 @@ def execute_combobox_query4():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
         
         
         
@@ -262,6 +264,7 @@ def execute_combobox_query5():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
 
 # ### UPDATES para registros en las ventanas que se abren desde TAB.3
 
@@ -298,6 +301,7 @@ def registrar_profesor():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
         
 # ### CONSULTAS PARA consultas_proyecto EN TAB.4
 
@@ -318,6 +322,7 @@ def execute_query_proyecto_1():
         print('ERROR EXCEPT consulta 1 rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
     
 # Muestra instrumentos que esten disponibles para prestamo    
 def execute_query_proyecto_2():
@@ -336,16 +341,55 @@ def execute_query_proyecto_2():
         print('ERROR EXCEPT consulta 1 rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
     
 
 def execute_query_proyecto_3():
     print("Se llama a EXECUTE QUERY para consulta 3 tab.4")
     # Esta funcion usa informacion extraida de una ventana formulario
-    # MARCO ESTA TRABAJANDO EN ESTA QUERY
+    
+    ven3_inicio = ven3_entry_inicio.get() # FECHAS
+    ven3_termino = ven3_entry_termino.get()
+    
+    print(f"Se van a usar los valores: {ven3_inicio}, {ven3_termino}")
+    
+    
+    query_string = f"SELECT COUNT(*) AS cantidadcatedras, SUM(i.avaluo)\
+                    FROM catedras c, solicita s, instrumento i, gestiona g, contratodecomodato cdc\
+                    WHERE c.rutest=s.rutest AND c.rutprof=s.rutprof AND s.numserieinst=i.numserie\
+                        AND s.numserieinst=g.numserieinst AND g.codigodelcontrato=cdc.codigocontrato\
+                        AND cdc.fechainicio BETWEEN '{ven3_inicio}' AND '{ven3_termino}'\
+                        AND s.tipodeprestamo='Anual' AND s.estadosolicitud NOT IN ('Rechazado')"
+    
+    try:
+        crsr.execute(query_string)
+        resultado_query = crsr.fetchall()
+        display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+    except Exception as error:
+        print('ERROR EXCEPT consulta 1 rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+        messagebox.showerror("Error", "Ingrese los datos en los campos antes de consultar. Ejemplo de formato fecha: 2023-10-18")
+        connection.rollback()
 
 def execute_query_proyecto_4():
     print("Se llama a EXECUTE QUERY para consulta 4 tab.4")
-    # MARCO ESTA TRABAJANDO EN ESTA QUERY
+    
+    query_string = f"SELECT e.nombredepila as nombre_est, s.rutest, i.nombre as nombreinst, s.numserieinst,\
+                        EXTRACT(day FROM age(current_date, s.fechasolicitud)) AS dias_pasados\
+                    FROM estudiante e, instrumento i, solicita s\
+                    WHERE e.rut = s.rutest AND i.numserie = s.numserieinst\
+                        AND s.tipodeprestamo = 'Eventual'"
+    
+    try:
+        crsr.execute(query_string)
+        resultado_query = crsr.fetchall()
+        display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+    except Exception as error:
+        print('ERROR EXCEPT consulta 1 rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+        connection.rollback()
 
 # Prestamos de un tipo de instrumento especifico entre 2 fechas especificas.
 def execute_query_proyecto_5():
@@ -376,11 +420,88 @@ def execute_query_proyecto_5():
         print('ERROR EXCEPT consulta 1 rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        messagebox.showerror("Error", "Ingrese los datos en los campos antes de consultar. Ejemplo de formato fecha: 2023-10-18")
+        connection.rollback()
 
 
 def execute_query_proyecto_6():
     print("Se llama a EXECUTE QUERY para consulta 6 tab.4")
     # MARCO ESTA TRABAJANDO EN ESTA QUERY
+    
+    ven6_tipo_prestamo = ven6_combo_tipo_prestamo.get()
+    ven6_inicio = ven6_entry_inicio.get()
+    ven6_termino = ven6_entry_termino.get()
+    
+    print(f"Se van a usar los valores: {ven6_combo_tipo_prestamo}, {ven6_inicio}, {ven6_termino}")
+    
+    
+    
+    query_string_anual = f"SELECT SUM(i.avaluo) AS suma_avaluos, c.catedra, count(c.catedra) AS cantidad_catedra\
+                            FROM instrumento i, solicita s, catedras c, gestiona g, contratodecomodato cdc\
+                            WHERE i.numserie=s.numserieinst AND s.rutest=c.rutest AND s.rutprof=c.rutprof\
+                                AND g.numserieinst=s.numserieinst AND cdc.codigocontrato=g.codigodelcontrato\
+                                AND s.tipodeprestamo='Anual' AND s.estadosolicitud NOT IN ('Rechazado')\
+                                AND cdc.fechainicio BETWEEN '{ven6_inicio}' AND '{ven6_termino}'\
+                            GROUP BY c.catedra\
+                            ORDER BY cantidad_catedra DESC LIMIT 1"
+    
+    query_string_eventual = f"SELECT SUM(i.avaluo) AS suma_avaluos, c.catedra, count(c.catedra) AS cantidad_catedra\
+                            FROM instrumento i, solicita s, catedras c, prestamo_eventual p\
+                            WHERE i.numserie=s.numserieinst AND s.rutest=c.rutest AND s.rutprof=c.rutprof\
+                                AND p.fechainicio=s.fechasolicitud AND s.tipodeprestamo='Eventual'\
+                                AND s.estadosolicitud NOT IN ('Rechazado') AND p.fechainicio BETWEEN '{ven6_inicio}' AND '{ven6_termino}'\
+                            GROUP BY c.catedra\
+                            ORDER BY cantidad_catedra DESC LIMIT 1"
+    
+    query_string_ambos = f"SELECT SUM(i.avaluo) AS suma_avaluos, c.catedra, COUNT(c.catedra) AS cantidad_catedra, 'Eventual' AS tipo_prestamo\
+                            FROM instrumento i, solicita s, catedras c, prestamo_eventual p\
+                            WHERE i.numserie = s.numserieinst \
+                                AND s.rutest = c.rutest \
+                                AND s.rutprof = c.rutprof\
+                                AND p.fechainicio = s.fechasolicitud \
+                                AND s.tipodeprestamo = 'Eventual'\
+                                AND s.estadosolicitud NOT IN ('Rechazado') \
+                                AND p.fechainicio BETWEEN '{ven6_inicio}' AND '{ven6_termino}'\
+                            GROUP BY c.catedra, tipo_prestamo\
+                            UNION\
+                            SELECT SUM(i.avaluo) AS suma_avaluos, c.catedra, COUNT(c.catedra) AS cantidad_catedra, 'Anual' AS tipo_prestamo\
+                            FROM instrumento i, solicita s, catedras c, gestiona g, contratodecomodato cdc\
+                            WHERE  i.numserie = s.numserieinst \
+                                AND s.rutest = c.rutest \
+                                AND s.rutprof = c.rutprof\
+                                AND g.numserieinst = s.numserieinst \
+                                AND cdc.codigocontrato = g.codigodelcontrato\
+                                AND s.tipodeprestamo = 'Anual' \
+                                AND s.estadosolicitud NOT IN ('Rechazado')\
+                                AND cdc.fechainicio BETWEEN '{ven6_inicio}' AND '{ven6_termino}'\
+                            GROUP BY c.catedra, tipo_prestamo\
+                            ORDER BY cantidad_catedra DESC \
+                            LIMIT 1"
+        
+    
+    try:
+        if ven6_tipo_prestamo == 'Anual':
+            crsr.execute(query_string_anual)
+            resultado_query = crsr.fetchall()
+            display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+            
+        if ven6_tipo_prestamo == 'Eventual':
+            crsr.execute(query_string_eventual)
+            resultado_query = crsr.fetchall()
+            display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+            
+        if ven6_tipo_prestamo == 'Ambos':
+            crsr.execute(query_string_ambos)
+            resultado_query = crsr.fetchall()
+            display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+            
+    except Exception as error:
+        print('ERROR EXCEPT consulta 1 rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+        messagebox.showerror("Error", "Ingrese los datos en los campos antes de consultar. Ejemplo de formato fecha: 2023-10-18")
+        connection.rollback()
+    
 
 
 # ### QUERY PARA GRAFICAR INSTRUMENTOS EN TAB.5
@@ -399,6 +520,7 @@ def query_graficar_stock():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        connection.rollback() # Arregla bloqueo de transaccion.
         
 
 def query_graficar_prestamos():
@@ -432,7 +554,9 @@ def query_graficar_prestamos():
     except Exception as error:
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
-        messagebox.showerror("Error", str(error))
+        print(str(error))
+        #messagebox.showerror("Error", str(error))
+        messagebox.showerror("Error", "Ingrese una fecha antes de valida consultar.")
         connection.rollback() # Arregla bloqueo de transaccion.
         
 
@@ -1059,7 +1183,7 @@ def ventana_consulta_proyecto_3():
     ven3_entry_termino.grid(row=3, column=1, padx=(45,0), pady=(0,10))
     
     # Instrucciones para usuario sobre FECHA
-    ven3_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AA-MM-DD", font=("Arial", 10, "bold"))
+    ven3_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AAAA-MM-DD", font=("Arial", 10, "bold"))
     ven3_label_instrucciones.grid(row=6, column=0, padx=(15,0), pady=(20,0))
     
     
@@ -1114,7 +1238,7 @@ def ventana_consulta_proyecto_5():
     ven5_combo_tipo_instrumento.grid(row=5, column=0, padx=(15,0), pady=(0,10))
     
     # Instrucciones para usuario sobre FECHA
-    ven5_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AA-MM-DD", font=("Arial", 10, "bold"))
+    ven5_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AAAA-MM-DD", font=("Arial", 10, "bold"))
     ven5_label_instrucciones.grid(row=6, column=0, padx=(15,0), pady=(20,0))
     
     
@@ -1166,27 +1290,29 @@ def ventana_consulta_proyecto_6():
     ven6_label_tipo = ttk.Label(ventana_registro, text="Tipo de Prestamo", font=("Arial", 10, "bold"))
     ven6_label_tipo.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    ven6_combo_valores = ["Eventual", "Anual"]
+    ven6_combo_valores = ["Eventual", "Anual", "Ambos"]
     ven6_combo_tipo_prestamo = ttk.Combobox(ventana_registro, values=ven6_combo_valores, width=30)
     ven6_combo_tipo_prestamo.grid(row=5, column=0, padx=(15,0), pady=(0,10))
     
     
     
-    ven6_label_catedra = ttk.Label(ventana_registro, text="Catedra", font=("Arial", 10, "bold"))
-    ven6_label_catedra.grid(row=4, column=1, padx=(45,0), pady=(20,0))
-    
-    ven6_combo2_valores = ["Baritono", "Cornos", "Trombon", "Trompeta", "Tuba", "Violin", "Violoncellos"]
-    ven6_combo_catedra = ttk.Combobox(ventana_registro, values=ven6_combo2_valores, width=30)
-    ven6_combo_catedra.grid(row=5, column=1, padx=(15,0), pady=(0,10))
+    #ven6_label_catedra = ttk.Label(ventana_registro, text="Catedra", font=("Arial", 10, "bold"))
+    #ven6_label_catedra.grid(row=4, column=1, padx=(45,0), pady=(20,0))
+
+    #ven6_combo2_valores = ["Baritono", "Cornos", "Trombon", "Trompeta", "Tuba", "Violin", "Violoncellos"]
+    #ven6_combo_catedra = ttk.Combobox(ventana_registro, values=ven6_combo2_valores, width=30)
+    #ven6_combo_catedra.grid(row=5, column=1, padx=(15,0), pady=(0,10))
     
     # Instrucciones para usuario sobre FECHA
-    ven6_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AA-MM-DD", font=("Arial", 10, "bold"))
+    ven6_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AAAA-MM-DD", font=("Arial", 10, "bold"))
     ven6_label_instrucciones.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    
+    
     
     
     # Boton para ejecutar consulta.
     ven6_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=execute_query_proyecto_6, width=30)
-    ven6_btn_consultar.grid(row=10, column=1, padx=(45,0), pady=(130,10))
+    ven6_btn_consultar.grid(row=8, column=1, padx=(45,0), pady=(130,10))
 
 
 ###  Elementos de TAB.4 principal
@@ -1207,7 +1333,7 @@ tab4_btn3 = ttk.Button(tab4, text="Catedras con Instrumentos Prestados en Period
 tab4_btn3.grid(row=3, column=1, padx=100, pady=(0, 10))
 
 # Contulta proyecto 4
-tab4_btn4 = ttk.Button(tab4, text="Detalles Estudiantes con Prestamo Eventual", command=execute_query_proyecto_3, width=50)
+tab4_btn4 = ttk.Button(tab4, text="Detalles Estudiantes con Prestamo Eventual", command=execute_query_proyecto_4, width=50)
 tab4_btn4.grid(row=4, column=1, padx=100, pady=(0, 30))
 
 # Contulta proyecto 5
