@@ -27,7 +27,8 @@ import matplotlib.pyplot as plt
     
     TODO para llegar a version final, 1-2/dic
     
-        - Hacer funciones de consulta para consultas_proyecto de la tab.4
+        - Hacer funciones de consulta para consultas_proyecto de la tab.4 - Faltan las Queries de marco
+        
                 
 '''
 
@@ -207,6 +208,57 @@ def execute_combobox_query4():
         crsr.execute(query)
         results = crsr.fetchall()
         display_results_in_window(results)
+    except Exception as error:
+        print('ERROR EXCEPT Combobox rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+        
+        
+        
+def execute_combobox_query5():
+    print("Consulta 5 tab.2 seleccionada")
+    selected_item = combobox_query5.get()
+    
+    query_todos = f"SELECT nombre, COUNT(*) AS Stock\
+                FROM instrumento\
+                GROUP BY nombre\
+                ORDER BY COUNT(*) DESC"
+                
+    query_disponibles = f"SELECT nombre, COUNT(*) AS Stock\
+                FROM instrumento\
+                WHERE estado = 'Disponible'\
+                GROUP BY nombre\
+                ORDER BY COUNT(*) DESC"
+    
+    query_reparacion = f"SELECT nombre, COUNT(*) AS Stock\
+                FROM instrumento\
+                WHERE estado = 'En reparacion'\
+                GROUP BY nombre\
+                ORDER BY COUNT(*) DESC"
+    
+    query_revision = f"SELECT nombre, COUNT(*) AS Stock\
+                FROM instrumento\
+                WHERE estado = 'En revision'\
+                GROUP BY nombre\
+                ORDER BY COUNT(*) DESC"
+                
+    try:
+        if selected_item == "Todos":
+            crsr.execute(query_todos)
+            results = crsr.fetchall()
+            display_results_in_window(results)
+        if selected_item == "Disponibles":
+            crsr.execute(query_disponibles)
+            results = crsr.fetchall()
+            display_results_in_window(results)
+        if selected_item == "En Reparacion":
+            crsr.execute(query_reparacion)
+            results = crsr.fetchall()
+            display_results_in_window(results)
+        if selected_item == "En Revision":
+            crsr.execute(query_revision)
+            results = crsr.fetchall()
+            display_results_in_window(results)
     except Exception as error:
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
@@ -405,12 +457,12 @@ execute_combobox_button1.grid(row=1, column=1, padx=10, pady=10)
 # ### 2da consulta - VER PRESTAMOS
 # Label para combobox 2
 label_combobox2 = ttk.Label(tab2, text="Ver Prestamos", font=("Arial", 9, "bold"))
-label_combobox2.grid(row=3, column=0, padx=10, pady=10)
+label_combobox2.grid(row=3, column=0, padx=10, pady=(10,0))
 
 # Combobox2
 combobox_query_values2 = ["Eventual", "Anual"]
 combobox_query2 = ttk.Combobox(tab2, values=combobox_query_values2)
-combobox_query2.grid(row=4, column=0, padx=10, pady=10)
+combobox_query2.grid(row=4, column=0, padx=10, pady=(0,10))
 
 # Btn 'Execute Combobox Query' 2
 execute_combobox_button2 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query2, width=20)
@@ -422,12 +474,12 @@ execute_combobox_button2.grid(row=4, column=1, padx=10, pady=10)
 # ### 3ra consulta - VER INSTRUMENTOS
 # Label para combobox 3
 label_combobox3 = ttk.Label(tab2, text="Ver Instrumentos", font=("Arial", 9, "bold"))
-label_combobox3.grid(row=5, column=0, padx=10, pady=10)
+label_combobox3.grid(row=5, column=0, padx=10, pady=(10,0))
 
 # Combobox 3
 combobox_query_values3 = ["Todos", "Baritono", "Clarinete", "Corno", "Trombon", "Trompeta", "Tuba", "Viola", "Violin", "Violoncello"]
 combobox_query3 = ttk.Combobox(tab2, values=combobox_query_values3)
-combobox_query3.grid(row=6, column=0, padx=10, pady=10)
+combobox_query3.grid(row=6, column=0, padx=10, pady=(0,10))
 
 # Btn 'Execute Combobox Query' 3
 execute_combobox_button3 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query3, width=20)
@@ -439,15 +491,32 @@ execute_combobox_button3.grid(row=6, column=1, padx=10, pady=10)
 # ### 4ta consulta - VER PRESTAMOS HISTORICOS DE ESTUDIANTE
 # Label para combobox 4
 label_combobox4 = ttk.Label(tab2, text="Prestamos de un Estudiante", font=("Arial", 9, "bold"))
-label_combobox4.grid(row=7, column=0, padx=10, pady=10)
+label_combobox4.grid(row=7, column=0, padx=10, pady=(10,0))
 
 # Combobox4
 combobox_query4 = ttk.Entry(tab2, width=25)
-combobox_query4.grid(row=8, column=0, padx=10, pady=10)
+combobox_query4.grid(row=8, column=0, padx=10, pady=(0,10))
 
 # Btn 'Execute Combobox Query' 4
 execute_combobox_button4 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query4, width=20)
 execute_combobox_button4.grid(row=8, column=1, padx=10, pady=10)
+
+
+# ### 5ta consulta - VER STOCK INSTRUMENTOS TOTAL Y DISPONIBLE
+# Label para combobox 5
+label_combobox5 = ttk.Label(tab2, text="Stock Instrumentos", font=("Arial", 9, "bold"))
+label_combobox5.grid(row=9, column=0, padx=10, pady=(10,0))
+
+# Combobox5
+combobox_query5_values = ["Todos", "Disponibles", "En Reparacion", "En Revision"]
+combobox_query5 = ttk.Combobox(tab2, values=combobox_query5_values)
+combobox_query5.grid(row=10, column=0, padx=10, pady=(0,10))
+
+# Btn 'Execute Combobox Query' 5
+execute_combobox_button5 = ttk.Button(tab2, text="Hacer Consulta", command=execute_combobox_query5, width=20)
+execute_combobox_button5.grid(row=10, column=1, padx=10, pady=10)
+
+
 
 # Centra elementos de Tab1 - Consulta
 tab2.columnconfigure(0, weight=1)
