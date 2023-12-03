@@ -5,42 +5,30 @@ from ttkbootstrap import Style, Notebook
 from tkinter import messagebox
 import psycopg2
 from PIL import Image, ImageTk
+import matplotlib.pyplot as plt
 
-
-''' TODO:
-    # NOTA: ComboBox_Query1 se llama ComboBox pero es una Query fija, Se mantiene asi por orden.
+'''
+    NOTA: ComboBox_Query1 se llama ComboBox pero es una Query fija, Se mantiene asi por orden.
                 
-      NOTA: Hay un elemento de 'tk.entry', Esta comentado, pero se mantiene por conveniencia.
+    NOTA: Hay un elemento de 'tk.entry', Esta comentado, pero se mantiene por conveniencia.
     
-    
-    # Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo ??
-    
-    # Agregar Tabs para separar funcionalidades. (Por ahora: Home, Consulta, Registro) --  > Listo. 
-                Falta agregar funciones a tab3: REGISTRA.
-                    UI de tab3 - LISTO
-                    UI de ventanas de opciones tab 3 - Pendiente
-                    Extraer informacion de ventanas tab 3 - Pendiente
-                    Funciones de Registro que usen la informacion extraida - Pendiente
-                    Update a las tablas - Pendiente
-    
-   
-    # Agregar visualizacion de consulta, Puede ser cantidad de prestamos o cant tipos instrumentos
-        prestados mensuales. (Mathplot lib??)
+    NOTA: Por ahora todas estas funciones de REGISTRO van a afectar la tabla 'test_registros', Consultar
+          con equipo si las funciones de registros estan listas o falta agregar algo.
+                
+                
+    NO SE SABE:
+        - Hay que hacer login dentro del programa en vez de poner datos de psycopg en codigo ??
+        - Agregar grafico de barras con prestamos de tipos de instrumentos por mes. [Usuario elige fecha]
         
     # TAB 3 Registros -->
-        - Agregar funciones de registro para las 5 opciones.
-        - Agregar respectivas ventanas a cada boton de registro.
-            - Agregar elementos de UI a cada ventana.
-        - Agregar fetch de informacion en ventanas de registro hacia
-            las funciones de registro.
-        * Por ahora todas estas funciones van a afectar la tabla
-            'test_registros', Que fue creada para probar si los UPDATE
-            que se crearon para la TAB3 funcionan correctamente.
-            Cuando todo este OK, Se van a modificar las funcioens para
-            que los cambios se hagan en las tablas correctas.
-        * Confirmar con equipo si las UPDATES creadas son todo lo necesario
-            para el correcto funcionamiento, O si falta agregar cosas.
-        
+        *** Por ahora funciona sobre la tabla 'test_registros'
+            
+    
+    
+    TODO para llegar a version final, 1-2/dic
+    
+        - Hacer funciones de consulta para consultas_proyecto de la tab.4
+                
 '''
 
 
@@ -78,11 +66,15 @@ notebook.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 tab1 = tk.Frame(notebook)
 tab2 = tk.Frame(notebook)
 tab3 = tk.Frame(notebook)
+tab4 = tk.Frame(notebook)
+tab5 = tk.Frame(notebook)
 
 # agrega las tabs al notebook
-notebook.add(tab1, text="Home")
-notebook.add(tab2, text="Consulta")
-notebook.add(tab3, text="Registro")
+notebook.add(tab1, text="Inicio")
+notebook.add(tab2, text="Consultas Rapidas")
+notebook.add(tab3, text="Registros")
+notebook.add(tab4, text="Consultas Proyecto")
+notebook.add(tab5, text="Visualizacion")
 
 
 # Muestra resultados en una nueva ventana resultado. (usa treeview)
@@ -255,6 +247,24 @@ def registrar_profesor():
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
         messagebox.showerror("Error", str(error))
+        
+        
+def query_graficar_stock():
+       
+    
+    query_string = f"SELECT nombre, COUNT(*) FROM instrumento GROUP BY nombre"
+    
+    
+    try:
+        crsr.execute(query_string)
+        data_grafico_stock = crsr.fetchall()
+       # display_results_in_window(data_grafico_stock) # Se muestra el resultado stock en tabla
+        grafico_stock(data_grafico_stock)
+    except Exception as error:
+        print('ERROR EXCEPT Combobox rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+        
 
 
 
@@ -363,6 +373,8 @@ tab2.columnconfigure(1, weight=1)
 
 
 # ### Tab3 | UI de REGISTROS --->
+
+# ### Ventanas que se abren desde TAB3 REGISTRA
 
 def print_mock():
     print("hola esto es una mock func")
@@ -779,6 +791,7 @@ def ventana_registro_anual():
 
 # ### 1er Registro - Registrar Prestamo Eventual
 # Btn para Registro 1
+
 btn_registro1 = ttk.Button(tab3, text="Registrar Prestamo Eventual", command=ventana_registro_eventual, width=50)
 btn_registro1.grid(row=2, column=0, padx=10, pady=(30,10))
 
@@ -817,7 +830,251 @@ tab3.columnconfigure(0, weight=1)
 
 
 
-# ### Ventanas que se abren desde TAB3 REGISTRA
+
+# Elementos de U.I. De Consultas de Proyecto | TAB 4 ---->
+
+###  Elementos de ventanas que abren las consultas de TAB.4
+
+def ventana_consulta_proyecto_3():
+    # Hace las variables globales para poder acceder desde la ventana principal.
+    # Quiza hay una mejor manera de hacer esto. Por ahora se usa GLOBAL
+    global ven3_entry_inicio, ven3_entry_termino
+    
+    # Crea la ventana, La hace de tamano fijo
+    ventana_registro = tk.Toplevel(root)
+    ventana_registro.title("Consulta de proyecto")
+    ventana_registro.geometry("500x460")
+    ventana_registro.resizable(False, False)
+    
+    # Titulo dentro de ventana
+    label_titulo_registra_profesor = ttk.Label(
+    ventana_registro,
+    text="Catedras con Instrumentos Prestados",
+    font=("BlinkMacSystemFont", 16, "bold"),
+    foreground="White",
+    padding=(10, 10),
+    )
+    label_titulo_registra_profesor.grid(row=1, column=0, padx=10, pady=10, columnspan=20)
+    
+    
+    # Agrega labels, TextEntries y combobox para cada campo.
+    ven3_label_inicio = ttk.Label(ventana_registro, text="Fecha de Inicio", font=("Arial", 10, "bold"))
+    ven3_label_inicio.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    
+    ven3_entry_inicio = ttk.Entry(ventana_registro, width=30)
+    ven3_entry_inicio.grid(row=3, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    ven3_label_termino = ttk.Label(ventana_registro, text="Fecha de Termino", font=("Arial", 10, "bold"))
+    ven3_label_termino.grid(row=2, column=1, padx=(45,0), pady=(20,0))
+    
+    ven3_entry_termino = ttk.Entry(ventana_registro, width=30)
+    ven3_entry_termino.grid(row=3, column=1, padx=(45,0), pady=(0,10))
+    
+    
+    
+    # Boton para ejecutar consulta.
+    ven3_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=registrar_profesor, width=30)
+    ven3_btn_consultar.grid(row=10, column=1, padx=(65,0), pady=(180,10))
+
+def ventana_consulta_proyecto_5():
+    # Hace las variables globales para poder acceder desde la ventana principal.
+    # Quiza hay una mejor manera de hacer esto. Por ahora se usa GLOBAL
+    global ven5_entry_inicio, ven5_entry_termino, ven5_combo_tipo_instrumento
+    
+    # Crea la ventana, La hace de tamano fijo
+    ventana_registro = tk.Toplevel(root)
+    ventana_registro.title("Consulta de proyecto")
+    ventana_registro.geometry("500x460")
+    ventana_registro.resizable(False, False)
+    
+    # Titulo dentro de ventana
+    label_titulo_registra_profesor = ttk.Label(
+    ventana_registro,
+    text="Prestamos de Instrumentos en Periodo",
+    font=("BlinkMacSystemFont", 16, "bold"),
+    foreground="White",
+    padding=(10, 10),
+    )
+    label_titulo_registra_profesor.grid(row=1, column=0, padx=10, pady=10, columnspan=20)
+    
+    
+    # Agrega labels, TextEntries y combobox para cada campo.
+    ven5_label_inicio = ttk.Label(ventana_registro, text="Fecha de Inicio", font=("Arial", 10, "bold"))
+    ven5_label_inicio.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    
+    ven5_entry_inicio = ttk.Entry(ventana_registro, width=30)
+    ven5_entry_inicio.grid(row=3, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    ven5_label_termino = ttk.Label(ventana_registro, text="Fecha de Termino", font=("Arial", 10, "bold"))
+    ven5_label_termino.grid(row=2, column=1, padx=(45,0), pady=(20,0))
+    
+    ven5_entry_termino = ttk.Entry(ventana_registro, width=30)
+    ven5_entry_termino.grid(row=3, column=1, padx=(45,0), pady=(0,10))
+    
+    
+    
+    ven5_label_tipo = ttk.Label(ventana_registro, text="Tipo de Instrumento", font=("Arial", 10, "bold"))
+    ven5_label_tipo.grid(row=4, column=0, padx=(15,0), pady=(20,0))
+    
+    ven5_combo_valores = ["Violin", "Guitarra", "Viola", "Baritono"]
+    ven5_combo_tipo_instrumento = ttk.Combobox(ventana_registro, values=ven5_combo_valores, width=30)
+    ven5_combo_tipo_instrumento.grid(row=5, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    
+    # Boton para ejecutar consulta.
+    ven5_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=registrar_profesor, width=30)
+    ven5_btn_consultar.grid(row=10, column=1, padx=(65,0), pady=(180,10))
+
+
+def ventana_consulta_proyecto_6():
+    # Hace las variables globales para poder acceder desde la ventana principal.
+    # Quiza hay una mejor manera de hacer esto. Por ahora se usa GLOBAL
+    global ven6_entry_inicio, ven6_entry_termino, ven6_combo_tipo_prestamo, ven6_combo_catedra
+    
+    # Crea la ventana, La hace de tamano fijo
+    ventana_registro = tk.Toplevel(root)
+    ventana_registro.title("Consulta de proyecto")
+    ventana_registro.geometry("500x460")
+    ventana_registro.resizable(False, False)
+    
+    # Titulo dentro de ventana
+    label_titulo_registra_profesor = ttk.Label(
+    ventana_registro,
+    text="Avaluo Total en Periodo",
+    font=("BlinkMacSystemFont", 16, "bold"),
+    foreground="White",
+    padding=(10, 10),
+    )
+    label_titulo_registra_profesor.grid(row=1, column=0, padx=10, pady=10, columnspan=20)
+    
+    
+    # Agrega labels, TextEntries, y combobox para cada campo.
+    
+    ven6_label_inicio = ttk.Label(ventana_registro, text="Fecha de Inicio", font=("Arial", 10, "bold"))
+    ven6_label_inicio.grid(row=2, column=0, padx=(15,0), pady=(20,0))
+    
+    ven6_entry_inicio = ttk.Entry(ventana_registro, width=30)
+    ven6_entry_inicio.grid(row=3, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    ven6_label_termino = ttk.Label(ventana_registro, text="Fecha de Termino", font=("Arial", 10, "bold"))
+    ven6_label_termino.grid(row=2, column=1, padx=(45,0), pady=(20,0))
+    
+    ven6_entry_termino = ttk.Entry(ventana_registro, width=30)
+    ven6_entry_termino.grid(row=3, column=1, padx=(45,0), pady=(0,10))
+    
+    
+    
+    ven6_label_tipo = ttk.Label(ventana_registro, text="Tipo de Prestamo", font=("Arial", 10, "bold"))
+    ven6_label_tipo.grid(row=4, column=0, padx=(15,0), pady=(20,0))
+    
+    ven6_combo_valores = ["Eventual", "Anual"]
+    ven6_combo_tipo_prestamo = ttk.Combobox(ventana_registro, values=ven6_combo_valores, width=30)
+    ven6_combo_tipo_prestamo.grid(row=5, column=0, padx=(15,0), pady=(0,10))
+    
+    
+    
+    ven6_label_catedra = ttk.Label(ventana_registro, text="Catedra", font=("Arial", 10, "bold"))
+    ven6_label_catedra.grid(row=4, column=1, padx=(45,0), pady=(20,0))
+    
+    ven6_combo2_valores = ["catedra1", "catedra2", "catedra3"] # TODO Agregar catedras de verdad.
+    ven6_combo_catedra = ttk.Combobox(ventana_registro, values=ven6_combo2_valores, width=30)
+    ven6_combo_catedra.grid(row=5, column=1, padx=(15,0), pady=(0,10))
+    
+    
+    
+    # Boton para ejecutar consulta.
+    ven6_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=registrar_profesor, width=30)
+    ven6_btn_consultar.grid(row=10, column=1, padx=(65,0), pady=(180,10))
+
+
+###  Elementos de TAB.4 principal
+notebook.select(3) # AQUI MIENTRAS SE DISENA TAB
+
+
+
+# Contulta proyecto 1
+tab4_btn1 = ttk.Button(tab4, text="Instrumentos con Mayor Avaluo", command=print_mock, width=50)
+tab4_btn1.grid(row=1, column=1, padx=100, pady=(30, 10))
+
+# Contulta proyecto 2
+tab4_btn2 = ttk.Button(tab4, text="Instrumentos Disponibles", command=print_mock, width=50)
+tab4_btn2.grid(row=2, column=1, padx=100, pady=(0, 30))
+
+# Contulta proyecto 3
+tab4_btn3 = ttk.Button(tab4, text="Catedras con Instrumentos Prestados en Periodo", command=ventana_consulta_proyecto_3, width=50)
+tab4_btn3.grid(row=3, column=1, padx=100, pady=(0, 10))
+
+# Contulta proyecto 4
+tab4_btn4 = ttk.Button(tab4, text="Detalles Estudiantes con Prestamo Eventual", command=print_mock, width=50)
+tab4_btn4.grid(row=4, column=1, padx=100, pady=(0, 30))
+
+# Contulta proyecto 5
+tab4_btn5 = ttk.Button(tab4, text="Prestamos Anuales de Instrumento en Periodo", command=ventana_consulta_proyecto_5, width=50)
+tab4_btn5.grid(row=5, column=1, padx=100, pady=(0, 10))
+
+# Contulta proyecto 6
+tab4_btn6 = ttk.Button(tab4, text="Avaluo Total Prestamos en Periodo", command=ventana_consulta_proyecto_6, width=50)
+tab4_btn6.grid(row=6, column=1, padx=100, pady=(0, 15))
+
+
+
+
+
+# Elementos de U.I. De Graficos | TAB 5 ---->
+
+# ### Funciones de Graficos para TAB5
+
+def grafico_stock(data):
+    print("grafico_stock llamado")
+    
+    plt.figure(figsize=(8, 5))
+    
+    # Saca los tipos y cantidades de instrumentos de la tabla
+    types = [row[0] for row in data]
+    counts = [row[1] for row in data]
+    
+    # Define colores, Los colores por defecto no eran suficientes y se repetian
+    custom_colors = [
+    'skyblue', 'orange', 'green', 'coral',
+    'lightskyblue', 'pink', 'gray', 'gold',
+    'seagreen', 'blue', 'lightyellow', 'salmon',
+    'steelblue', 'plum', 'green', 'lightcoral']
+
+
+    # Crea pieChart con las labels como valores enteros en vez de %
+    plt.pie(counts, labels=None, autopct=lambda pct: f'{int(pct / 100 * sum(counts))}', startangle=90, colors=custom_colors)
+
+    # Agrega las Labels al costado del grafico y titulo categorias
+    plt.legend(types, title='Tipo de Instrumento', loc='center left', bbox_to_anchor=(1, 0.5))
+
+    
+    # Titulo de ventana
+    plt.title('Stock Central Instrumentos')
+    plt.show()
+
+    
+
+
+# ### Elementos UI de pestana 5.
+
+tab5_label_descripcion_grafico1 = ttk.Label(
+    tab5,
+    text="Visualizar Central de Instrumentos",
+    font=("BlinkMacSystemFont", 9, "bold"),
+    foreground="White",
+    padding=(10, 10),
+    )
+
+tab5_label_descripcion_grafico1.grid(row=1, column=0, padx=10, pady=10, columnspan=20)
+
+tab5_btn_stock = ttk.Button(tab5, text="Visualizar", command=query_graficar_stock, width=25)
+tab5_btn_stock.grid(row=2, column=0, padx=25, pady=(0, 15))
+
+
 
 
 
