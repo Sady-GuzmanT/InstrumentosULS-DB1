@@ -110,7 +110,7 @@ def display_results_in_window(results):
 
 # Logica Consultas. --->
 
-
+# #### CONSULTAS RAPIDAS DE TAB.2
 
 # Ejecuta query de grupo combobox 1 - Ver estudiantes
 def execute_combobox_query1():
@@ -212,7 +212,7 @@ def execute_combobox_query4():
         print(error)
         messagebox.showerror("Error", str(error))
 
-# ### UPDATES para registros en las ventanas que se abren desde TAB3
+# ### UPDATES para registros en las ventanas que se abren desde TAB.3
 
 def registrar_profesor():
     rut = entry_rut_profesor.get()
@@ -248,7 +248,91 @@ def registrar_profesor():
         print(error)
         messagebox.showerror("Error", str(error))
         
-        
+# ### CONSULTAS PARA consultas_proyecto EN TAB.4
+
+# Muestra el top 20 de instrumentos con mayor Avaluo
+def execute_query_proyecto_1():
+    print("Se llama a EXECUTE QUERY para consulta 1 tab.4")
+    
+    query_string = f"SELECT nombre, numserie, avaluo \
+                        FROM instrumento \
+                        WHERE avaluo IS NOT NULL\
+                        ORDER BY avaluo DESC LIMIT 20"
+    
+    try:
+        crsr.execute(query_string)
+        resultado_query = crsr.fetchall()
+        display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+    except Exception as error:
+        print('ERROR EXCEPT consulta 1 rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+    
+# Muestra instrumentos que esten disponibles para prestamo    
+def execute_query_proyecto_2():
+    print("Se llama a EXECUTE QUERY para consulta 2 tab.4")
+    
+    
+    query_string = f"SELECT nombre, numserie, medidas \
+                        FROM instrumento \
+                        WHERE estado = 'Disponible'"
+    
+    try:
+        crsr.execute(query_string)
+        resultado_query = crsr.fetchall()
+        display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+    except Exception as error:
+        print('ERROR EXCEPT consulta 1 rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+    
+
+def execute_query_proyecto_3():
+    print("Se llama a EXECUTE QUERY para consulta 3 tab.4")
+    # Esta funcion usa informacion extraida de una ventana formulario
+    # MARCO ESTA TRABAJANDO EN ESTA QUERY
+
+def execute_query_proyecto_4():
+    print("Se llama a EXECUTE QUERY para consulta 4 tab.4")
+    # MARCO ESTA TRABAJANDO EN ESTA QUERY
+
+# Prestamos de un tipo de instrumento especifico entre 2 fechas especificas.
+def execute_query_proyecto_5():
+    print("Se llama a EXECUTE QUERY para consulta 5 tab.4")
+    # Se pueden sacar los prints despues, Son para comprobar que se estan comunicando correctamente las funciones
+    
+    ven5_tipo_instrumento = ven5_combo_tipo_instrumento.get()
+    ven5_inicio = ven5_entry_inicio.get()
+    ven5_termino = ven5_entry_termino.get()
+    
+    print(f"Se van a usar los valores: {ven5_tipo_instrumento}, {ven5_inicio}, {ven5_termino}")
+    
+    
+    
+    query_string = f"SELECT CD.CodigoContrato, COUNT(*) AS CantidadPrestamos\
+                        FROM ContratoDeComodato AS CD\
+                        JOIN Gestiona AS GD ON CD.CodigoContrato = GD.CodigoDelContrato\
+                        JOIN instrumento AS I ON GD.NumSerieInst = I.numserie\
+                        WHERE I.nombre = '{ven5_tipo_instrumento}' AND CD.FechaInicio\
+                        BETWEEN '{ven5_inicio}' AND '{ven5_termino}'\
+                        GROUP BY CD.CodigoContrato"
+    
+    try:
+        crsr.execute(query_string)
+        resultado_query = crsr.fetchall()
+        display_results_in_window(resultado_query) # Se muestra el resultado stock en tabla
+    except Exception as error:
+        print('ERROR EXCEPT consulta 1 rgt>> ')
+        print(error)
+        messagebox.showerror("Error", str(error))
+
+
+def execute_query_proyecto_6():
+    print("Se llama a EXECUTE QUERY para consulta 6 tab.4")
+    # MARCO ESTA TRABAJANDO EN ESTA QUERY
+
+
+# ### QUERY PARA GRAFICAR INSTRUMENTOS EN TAB.5
 def query_graficar_stock():
        
     
@@ -871,10 +955,14 @@ def ventana_consulta_proyecto_3():
     ven3_entry_termino = ttk.Entry(ventana_registro, width=30)
     ven3_entry_termino.grid(row=3, column=1, padx=(45,0), pady=(0,10))
     
+    # Instrucciones para usuario sobre FECHA
+    ven3_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AA-MM-DD", font=("Arial", 10, "bold"))
+    ven3_label_instrucciones.grid(row=6, column=0, padx=(15,0), pady=(20,0))
+    
     
     
     # Boton para ejecutar consulta.
-    ven3_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=registrar_profesor, width=30)
+    ven3_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=execute_query_proyecto_3, width=30)
     ven3_btn_consultar.grid(row=10, column=1, padx=(65,0), pady=(180,10))
 
 def ventana_consulta_proyecto_5():
@@ -918,15 +1006,19 @@ def ventana_consulta_proyecto_5():
     ven5_label_tipo = ttk.Label(ventana_registro, text="Tipo de Instrumento", font=("Arial", 10, "bold"))
     ven5_label_tipo.grid(row=4, column=0, padx=(15,0), pady=(20,0))
     
-    ven5_combo_valores = ["Violin", "Guitarra", "Viola", "Baritono"]
+    ven5_combo_valores = ["Baritono", "Clarinete", "Corno", "Trombon", "Trompeta", "Tuba", "Viola", "Violin", "Violoncello"]
     ven5_combo_tipo_instrumento = ttk.Combobox(ventana_registro, values=ven5_combo_valores, width=30)
     ven5_combo_tipo_instrumento.grid(row=5, column=0, padx=(15,0), pady=(0,10))
+    
+    # Instrucciones para usuario sobre FECHA
+    ven5_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AA-MM-DD", font=("Arial", 10, "bold"))
+    ven5_label_instrucciones.grid(row=6, column=0, padx=(15,0), pady=(20,0))
     
     
     
     # Boton para ejecutar consulta.
-    ven5_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=registrar_profesor, width=30)
-    ven5_btn_consultar.grid(row=10, column=1, padx=(65,0), pady=(180,10))
+    ven5_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=execute_query_proyecto_5, width=30)
+    ven5_btn_consultar.grid(row=10, column=1, padx=(45,0), pady=(130,10))
 
 
 def ventana_consulta_proyecto_6():
@@ -980,15 +1072,18 @@ def ventana_consulta_proyecto_6():
     ven6_label_catedra = ttk.Label(ventana_registro, text="Catedra", font=("Arial", 10, "bold"))
     ven6_label_catedra.grid(row=4, column=1, padx=(45,0), pady=(20,0))
     
-    ven6_combo2_valores = ["catedra1", "catedra2", "catedra3"] # TODO Agregar catedras de verdad.
+    ven6_combo2_valores = ["Baritono", "Cornos", "Trombon", "Trompeta", "Tuba", "Violin", "Violoncellos"]
     ven6_combo_catedra = ttk.Combobox(ventana_registro, values=ven6_combo2_valores, width=30)
     ven6_combo_catedra.grid(row=5, column=1, padx=(15,0), pady=(0,10))
     
+    # Instrucciones para usuario sobre FECHA
+    ven6_label_instrucciones = ttk.Label(ventana_registro, text="Formato de fecha: AA-MM-DD", font=("Arial", 10, "bold"))
+    ven6_label_instrucciones.grid(row=6, column=0, padx=(15,0), pady=(20,0))
     
     
     # Boton para ejecutar consulta.
-    ven6_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=registrar_profesor, width=30)
-    ven6_btn_consultar.grid(row=10, column=1, padx=(65,0), pady=(180,10))
+    ven6_btn_consultar = ttk.Button(ventana_registro, text="Hacer Consulta", command=execute_query_proyecto_6, width=30)
+    ven6_btn_consultar.grid(row=10, column=1, padx=(45,0), pady=(130,10))
 
 
 ###  Elementos de TAB.4 principal
@@ -997,11 +1092,11 @@ notebook.select(3) # AQUI MIENTRAS SE DISENA TAB
 
 
 # Contulta proyecto 1
-tab4_btn1 = ttk.Button(tab4, text="Instrumentos con Mayor Avaluo", command=print_mock, width=50)
+tab4_btn1 = ttk.Button(tab4, text="Instrumentos con Mayor Avaluo", command=execute_query_proyecto_1, width=50)
 tab4_btn1.grid(row=1, column=1, padx=100, pady=(30, 10))
 
 # Contulta proyecto 2
-tab4_btn2 = ttk.Button(tab4, text="Instrumentos Disponibles", command=print_mock, width=50)
+tab4_btn2 = ttk.Button(tab4, text="Instrumentos Disponibles", command=execute_query_proyecto_2, width=50)
 tab4_btn2.grid(row=2, column=1, padx=100, pady=(0, 30))
 
 # Contulta proyecto 3
@@ -1009,7 +1104,7 @@ tab4_btn3 = ttk.Button(tab4, text="Catedras con Instrumentos Prestados en Period
 tab4_btn3.grid(row=3, column=1, padx=100, pady=(0, 10))
 
 # Contulta proyecto 4
-tab4_btn4 = ttk.Button(tab4, text="Detalles Estudiantes con Prestamo Eventual", command=print_mock, width=50)
+tab4_btn4 = ttk.Button(tab4, text="Detalles Estudiantes con Prestamo Eventual", command=execute_query_proyecto_3, width=50)
 tab4_btn4.grid(row=4, column=1, padx=100, pady=(0, 30))
 
 # Contulta proyecto 5
