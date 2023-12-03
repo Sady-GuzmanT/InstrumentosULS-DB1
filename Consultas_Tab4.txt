@@ -1,0 +1,26 @@
+-- Consultas para TAB.4
+  -- Definidas por Branko y Marco en reunion 1/Dic. Modificadas por Sady
+
+Consulta 1
+SELECT nombre, numserie, avaluo
+FROM instrumento
+WHERE avaluo IS NOT NULL
+ORDER BY avaluo DESC LIMIT 20
+
+Consulta 2
+SELECT nombre, numserie, medidas
+FROM instrumento
+WHERE estado = 'Disponible'
+
+Consulta 3, 4, y 6 en desarrollo por Marco
+
+Consulta 5
+# Esta funcion usa informacion extraida de una ventana formulario
+SELECT CD.CodigoContrato, COUNT(*) AS CantidadPrestamos
+FROM ContratoDeComodato AS CD
+JOIN Gestiona AS GD ON CD.CodigoContrato = GD.CodigoDelContrato
+JOIN instrumento AS I ON GD.NumSerieInst = I.numserie
+WHERE I.nombre = 'Violin' AND CD.FechaInicio
+BETWEEN '2023-09-19' AND '2023-12-30'
+GROUP BY CD.CodigoContrato
+
