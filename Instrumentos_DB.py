@@ -68,7 +68,7 @@ tab5 = tk.Frame(notebook)
 notebook.add(tab1, text="Inicio")
 notebook.add(tab2, text="Consultas Rapidas")
 notebook.add(tab3, text="Registros")
-notebook.add(tab4, text="Consultas Proyecto")
+notebook.add(tab4, text="Consultas Inventario")
 notebook.add(tab5, text="Visualizacion")
 
 
@@ -127,7 +127,7 @@ def execute_combobox_query2():
     selected_item = combobox_query2.get()
 
     if selected_item == "Eventual":
-        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento \
+        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento, i.nombre \
                     FROM Estudiante e \
                     INNER JOIN prestamo_eventual p ON e.rut = p.rutest \
                     INNER JOIN Instrumento i ON p.NumSerieInst = i.NumSerie"
@@ -140,7 +140,7 @@ def execute_combobox_query2():
             print(error)
             connection.rollback() # Arregla bloqueo de transaccion.
     else:
-        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento \
+        query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento, i.nombre\
                     FROM Estudiante e \
                     INNER JOIN gestiona g ON e.rut = g.rutest \
                     INNER JOIN instrumento i ON g.numserieinst = i.numserie"
@@ -242,24 +242,36 @@ def execute_combobox_query5():
                 WHERE estado = 'En revision'\
                 GROUP BY nombre\
                 ORDER BY COUNT(*) DESC"
-                
+    
+    query_total = f"SELECT COUNT(*) AS Stock_TOTAL\
+                FROM instrumento"
+                            
     try:
         if selected_item == "Todos":
             crsr.execute(query_todos)
             results = crsr.fetchall()
             display_results_in_window(results)
+            
         if selected_item == "Disponibles":
             crsr.execute(query_disponibles)
             results = crsr.fetchall()
             display_results_in_window(results)
+            
         if selected_item == "En Reparacion":
             crsr.execute(query_reparacion)
             results = crsr.fetchall()
             display_results_in_window(results)
+            
         if selected_item == "En Revision":
             crsr.execute(query_revision)
             results = crsr.fetchall()
             display_results_in_window(results)
+            
+        if selected_item == "TOTAL":
+            crsr.execute(query_total)
+            results = crsr.fetchall()
+            display_results_in_window(results)
+            
     except Exception as error:
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
@@ -554,9 +566,8 @@ def query_graficar_prestamos():
     except Exception as error:
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
-        print(str(error))
-        #messagebox.showerror("Error", str(error))
-        messagebox.showerror("Error", "Ingrese una fecha antes de valida consultar.")
+        messagebox.showerror("Error", str(error))
+        messagebox.showerror("Error", "No hay datos. ")
         connection.rollback() # Arregla bloqueo de transaccion.
         
 
@@ -573,19 +584,22 @@ label_titulo = ttk.Label(
     foreground="White",
     padding=(10, 10),
 )
-label_titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=20)
+label_titulo.grid(row=0, column=0, padx=10, pady=(1,10), columnspan=20)
 
 # ### Instrucciones de uso.
 label_indicaciones = ttk.Label(
     tab1,
-    text="Para usar el programa hay que navegar las pestanas en la barra superior.\
-        \n\n*Consulta: Se obtiene informacion relevante. Seleccionar categoria en ComboBox\n\t  y hacer consulta.\
-            \n\n*Registro: Se Registran nuevos prestamos, Estudiantes, Instrumentos, y Profesores.",
+    text="Para usar el programa se pueden navegar las pestanas en la barra superior.\
+        \n\nConsulta: Se obtiene informacion relevante. Seleccionar categoria en ComboBox\n\t  y hacer consulta.\
+            \n\nRegistro: Se Registran nuevos prestamos, Estudiantes, Instrumentos, y Profesores.\
+        \n\nConsultas Inventario: Se obtiene informacion de Stock, Prestamos, Avaluo\
+            \n\nVisualizacion: Se muestra informacion de la central con Graficas.",
+            
     font=("BlinkMacSystemFont", 10),
     foreground="White",
     padding=(10, 10),
 )
-label_indicaciones.grid(row=2, column=0, padx=5, pady=10, columnspan=20)
+label_indicaciones.grid(row=1, column=0, padx=5, pady=10, columnspan=20)
 
 # ### Agrega imagen de ULS. (Preguntar a profesor si esta bien agregar esa imagen.)
 image_path = "logo.png"
@@ -594,7 +608,7 @@ img = img.resize((300, 150))  # dimension logo
 image = ImageTk.PhotoImage(img)
 
 image_label = ttk.Label(tab1, image=image, background="White") # Se agrega fondo blanco porque es un png sin fondo.
-image_label.grid(row=3, column=10, padx=10, pady=10)
+image_label.grid(row=3, column=10, padx=10, pady=(5,10))
 
 
 
@@ -666,7 +680,7 @@ label_combobox5 = ttk.Label(tab2, text="Stock Instrumentos", font=("Arial", 9, "
 label_combobox5.grid(row=9, column=0, padx=10, pady=(10,0))
 
 # Combobox5
-combobox_query5_values = ["Todos", "Disponibles", "En Reparacion", "En Revision"]
+combobox_query5_values = ["TOTAL", "Todos", "Disponibles", "En Reparacion", "En Revision"]
 combobox_query5 = ttk.Combobox(tab2, values=combobox_query5_values)
 combobox_query5.grid(row=10, column=0, padx=10, pady=(0,10))
 
@@ -1316,7 +1330,6 @@ def ventana_consulta_proyecto_6():
 
 
 ###  Elementos de TAB.4 principal
-notebook.select(3) # AQUI MIENTRAS SE DISENA TAB
 
 
 
