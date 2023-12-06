@@ -8,10 +8,10 @@ Relacionado a Asignatura Base de Datos 1 - uls.
 
 ![plot](./Img/final_graficos.png)<br>
 ![plot](./Img/final_consulta_rapida.png)<br>
-![plot](./Img/final_consulta_registra.png)
-![plot](./Img/final_consulta_registra_estudiante.png)
+![plot](./Img/final_consulta_registra.png)<br>
+![plot](./Img/final_consulta_registra_estudiante.png)<br>
 
-<br><br><br>
+<br><br>
 ![plot](./Img/banner_bootstrap_light.png)
 <br><br>
 SEM2 - 2023.
