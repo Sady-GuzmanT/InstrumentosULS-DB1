@@ -22,6 +22,8 @@ import matplotlib.pyplot as plt
             *** Por ahora funciona sobre la tabla 'test_registros' -- CAMBIAR a tablas reales.
             NOTA: Consultar con equipo si las funciones de registros estan listas o falta agregar algo.  
         
+    TODO Maxima prioridad: Nombre de tablas: Esperar a ver que hace marco con los nombres de las tablas.
+        
         
                 
 '''
@@ -32,8 +34,8 @@ import matplotlib.pyplot as plt
 connection = psycopg2.connect(
     host="10.4.3.195",  # PUERTO 5432
     database="instrumentos",
-    user="instrumentos",  # Temporal! - Cambiar a 'instrumento'
-    password="abKimY4"
+    user="instrumentos_dev",  # Temporal! - Cambiar a 'instrumento'
+    password="5jaLgi6"
 )
 
 # Crea cursor para hacer las consultas
@@ -67,9 +69,9 @@ tab5 = tk.Frame(notebook)
 # agrega las tabs al notebook
 notebook.add(tab1, text="Inicio")
 notebook.add(tab2, text="Consultas Rapidas")
-notebook.add(tab3, text="Registros")
 notebook.add(tab4, text="Consultas Inventario")
 notebook.add(tab5, text="Visualizacion")
+notebook.add(tab3, text="REGISTROS")
 
 
 # Muestra resultados en una nueva ventana resultado. (usa treeview)
@@ -130,7 +132,8 @@ def execute_combobox_query2():
         query = f"SELECT NombreDePila AS Nombre_Estudiante, rut AS rut_Estudiante, i.numSerie AS Num_Serie_Intrumento, i.nombre \
                     FROM Estudiante e \
                     INNER JOIN prestamo_eventual p ON e.rut = p.rutest \
-                    INNER JOIN Instrumento i ON p.NumSerieInst = i.NumSerie"
+                    INNER JOIN Instrumento i ON p.NumSerieInst = i.NumSerie\
+                    ORDER BY FechaInicio DESC"
         try:
             crsr.execute(query)
             results = crsr.fetchall()
@@ -198,7 +201,7 @@ def execute_combobox_query3():
 # Ejecuta query de grupo combobox 4. - Ver prestamos de estudiante especifico por rut
 def execute_combobox_query4():
     selected_item = combobox_query4.get()
-    query = f"SELECT e.RUT AS RUT_Estudiante, i.NumSerie AS Num_Serie_Instrumento, s.EstadoSolicitud, COUNT(s.RutEst) AS Cant_Veces_Prestado \
+    query = f"SELECT e.RUT AS RUT_Estudiante, i.NumSerie AS Num_Serie_Instrumento, i.nombre, s.EstadoSolicitud, COUNT(s.RutEst) AS Cant_Veces_Prestado \
                 FROM Estudiante e \
                 INNER JOIN Solicita s ON e.RUT = s.RutEst \
                 INNER JOIN Instrumento i ON i.NumSerie = s.NumSerieInst \
@@ -280,24 +283,23 @@ def execute_combobox_query5():
 
 # ### UPDATES para registros en las ventanas que se abren desde TAB.3
 
-def registrar_profesor():
-    rut = entry_rut_profesor.get()
-    nombre = entry_nombre_profesor.get()
-    app1 = entry_app1_profesor.get()
-    app2 = entry_app2_profesor.get()
+def registrar_prestamo_eventual():
+    
+    registro_rutest = entry_rut_prestamo_eventual.get()
+    registro_rutenc = entry_rut2_prestamo_eventual.get()
+    registro_numserie = entry_numserie_eventual.get()
+    registro_fecha_solicitud = entry_fecha_solicitud_eventual.get()
     
     print("REGISTRA PROFESOR CON ESTOS DATOS")
-    print("RUT:", rut)
-    print("Nombre:", nombre)
-    print("App1:", app1)
-    print("App2:", app2)
-    
-    # Por ahora se esta testeando. Ya se logra actualizar valores hacia la tabla, Hay que copiar
-    # el bloque de UPDATE y hacerlo para cada tabla que tiene que poder hacer UPDATE.
+    print("RUTest:", registro_rutest)
+    print("rutenc:", registro_rutenc)
+    print("numserie:", registro_numserie)
+    print("fecha_solicitud:", registro_fecha_solicitud)
     
     
-    query_update = f"INSERT INTO Test_Registros (rut_profesor, nombredepila, apellido1, apellido2)\
-                        VALUES ('{rut}', '{nombre}', '{app1}', '{app2}')"
+    
+    query_update = f"INSERT INTO prestamo_eventual (rutest, rutenc, numserieinst, fechainicio)\
+                        VALUES ('{registro_rutest}', '{registro_rutenc}', '{registro_numserie}', '{registro_fecha_solicitud}');"
     
     update_cursor = connection.cursor() # Cursor para hacer update * TEST
     
@@ -306,9 +308,9 @@ def registrar_profesor():
         connection.commit()
         update_cursor.close()
         messagebox.showinfo("Success", "Registro actualizado exitosamente")
-        print('Exito: Se actualizo el registro con: ')
+        print('Exito: Se actualizo el registro con la query: ')
         print(f"INSERT INTO Test_Registros (rut_profesor, nombredepila, apellido1, apellido2)\
-                        VALUES ('{rut}', '{nombre}', '{app1}', '{app2}')")
+                        VALUES ('{registro_rutest}', '{registro_rutenc}', '{registro_numserie}', '{registro_fecha_solicitud}')")
     except Exception as error:
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
@@ -566,7 +568,7 @@ def query_graficar_prestamos():
     except Exception as error:
         print('ERROR EXCEPT Combobox rgt>> ')
         print(error)
-        messagebox.showerror("Error", str(error))
+       # messagebox.showerror("Error", str(error))
         messagebox.showerror("Error", "No hay datos. ")
         connection.rollback() # Arregla bloqueo de transaccion.
         
@@ -584,13 +586,13 @@ label_titulo = ttk.Label(
     foreground="White",
     padding=(10, 10),
 )
-label_titulo.grid(row=0, column=0, padx=10, pady=(1,10), columnspan=20)
+label_titulo.grid(row=0, column=0, padx=10, pady=(1,5), columnspan=20)
 
 # ### Instrucciones de uso.
 label_indicaciones = ttk.Label(
     tab1,
     text="Para usar el programa se pueden navegar las pestanas en la barra superior.\
-        \n\nConsulta: Se obtiene informacion relevante. Seleccionar categoria en ComboBox\n\t  y hacer consulta.\
+        \n\n\nConsulta: Se obtiene informacion relevante. Seleccionar categoria en ComboBox\n\t  y hacer consulta.\
             \n\nRegistro: Se Registran nuevos prestamos, Estudiantes, Instrumentos, y Profesores.\
         \n\nConsultas Inventario: Se obtiene informacion de Stock, Prestamos, Avaluo\
             \n\nVisualizacion: Se muestra informacion de la central con Graficas.",
@@ -599,12 +601,12 @@ label_indicaciones = ttk.Label(
     foreground="White",
     padding=(10, 10),
 )
-label_indicaciones.grid(row=1, column=0, padx=5, pady=10, columnspan=20)
+label_indicaciones.grid(row=1, column=0, padx=5, pady=(1,5), columnspan=20)
 
 # ### Agrega imagen de ULS. (Preguntar a profesor si esta bien agregar esa imagen.)
 image_path = "logo.png"
 img = Image.open(image_path)
-img = img.resize((300, 150))  # dimension logo
+img = img.resize((250, 120))  # dimension logo
 image = ImageTk.PhotoImage(img)
 
 image_label = ttk.Label(tab1, image=image, background="White") # Se agrega fondo blanco porque es un png sin fondo.
@@ -703,6 +705,9 @@ tab2.columnconfigure(1, weight=1)
 
 def print_mock():
     print("hola esto es una mock func")
+
+def en_desarrollo():
+    messagebox.showerror("Ups!", "Esta funcion aun esta en desarrollo")
     
 # ### TAB3 | Ventanas de registro
 def ventana_registro_estudiante():
@@ -788,7 +793,7 @@ def ventana_registro_estudiante():
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro_estudiante = ttk.Button(ventana_registro, text="Registrar Estudiante", command=print_mock, width=30)
+    btn_registro_estudiante = ttk.Button(ventana_registro, text="Registrar Estudiante", command=en_desarrollo, width=30)
     btn_registro_estudiante.grid(row=10, column=1, padx=(80,0), pady=(25,10))
     
     
@@ -849,7 +854,7 @@ def ventana_registro_profesor():
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro_profesor = ttk.Button(ventana_registro, text="Registrar Profesor", command=registrar_profesor, width=30)
+    btn_registro_profesor = ttk.Button(ventana_registro, text="Registrar Profesor", command=en_desarrollo, width=30)
     btn_registro_profesor.grid(row=10, column=1, padx=(80,0), pady=(180,10))
     
     
@@ -933,7 +938,7 @@ def ventana_registro_instrumento():
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro_instrumento = ttk.Button(ventana_registro, text="Registrar Instrumento", command=print_mock, width=30)
+    btn_registro_instrumento = ttk.Button(ventana_registro, text="Registrar Instrumento", command=en_desarrollo, width=30)
     btn_registro_instrumento.grid(row=10, column=1, padx=(80,0), pady=(25,10))
     
 
@@ -944,6 +949,8 @@ def ventana_registro_eventual():
     ventana_registro.title("Registro de Eventual")
     ventana_registro.geometry("500x460")
     ventana_registro.resizable(False, False)
+    
+    global entry_rut_prestamo_eventual, entry_rut2_prestamo_eventual, entry_numserie_eventual, entry_fecha_solicitud_eventual
     
     # Titulo dentro de ventana
     label_titulo_registra_eventual = ttk.Label(
@@ -984,17 +991,8 @@ def ventana_registro_eventual():
     label_fechainicio_eventual = ttk.Label(ventana_registro, text="Fecha Inicio", font=("Arial", 10, "bold"))
     label_fechainicio_eventual.grid(row=4, column=1, padx=(80,0), pady=(20,0))
     
-    entry_fechainicio_eventual = ttk.Entry(ventana_registro, width=30)
-    entry_fechainicio_eventual.grid(row=5, column=1, padx=(80,0), pady=(0,10))
-    
-    
-    
-    
-    label_fechatermino_eventual = ttk.Label(ventana_registro, text="Fecha Termino", font=("Arial", 10, "bold"))
-    label_fechatermino_eventual.grid(row=6, column=0, padx=(15,0), pady=(20,0))
-    
-    entry_fechatermino_eventual = ttk.Entry(ventana_registro, width=30)
-    entry_fechatermino_eventual.grid(row=7, column=0, padx=(15,0), pady=(0,10))
+    entry_fecha_solicitud_eventual = ttk.Entry(ventana_registro, width=30)
+    entry_fecha_solicitud_eventual.grid(row=5, column=1, padx=(80,0), pady=(0,10))
     
     
     
@@ -1005,7 +1003,7 @@ def ventana_registro_eventual():
     
     
     # Boton para Completar Registro y sacar informacion.
-    btn_registro_eventual = ttk.Button(ventana_registro, text="Registrar Prestamo", command=print_mock, width=30)
+    btn_registro_eventual = ttk.Button(ventana_registro, text="Registrar Prestamo", command=registrar_prestamo_eventual, width=30)
     btn_registro_eventual.grid(row=10, column=1, padx=(80,0), pady=(75,10))
     
 
@@ -1108,7 +1106,7 @@ def ventana_registro_anual():
     
     
     
-    btn_registro_anual = ttk.Button(ventana_registro, text="Registrar Prestamo", command=print_mock, width=27)
+    btn_registro_anual = ttk.Button(ventana_registro, text="Registrar Prestamo", command=en_desarrollo, width=27)
     btn_registro_anual.grid(row=14, column=1, padx=(83, 0), pady=(10, 10))
    
     
@@ -1116,6 +1114,10 @@ def ventana_registro_anual():
 
 # ### 1er Registro - Registrar Prestamo Eventual
 # Btn para Registro 1
+
+#style = ttk.Style()
+#style.configure("no_disponible", background="#00ff00")
+#, style="no_disponible"
 
 btn_registro1 = ttk.Button(tab3, text="Registrar Prestamo Eventual", command=ventana_registro_eventual, width=50)
 btn_registro1.grid(row=2, column=0, padx=10, pady=(30,10))
