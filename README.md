@@ -8,8 +8,8 @@ Relacionado a Asignatura Base de Datos 1 - uls.
 
 ![plot](./Img/final_graficos.png)<br>
 ![plot](./Img/final_consulta_rapida.png)<br>
-![plot](./Img/final_consulta_registra.png)<br>
-![plot](./Img/final_consulta_registro_estudiante.png)<br>
+![plot](./Img/final_registra.png)<br>
+![plot](./Img/final_registro_estudiante.png)<br>
 
 <br><br>
 ![plot](./Img/banner_bootstrap_light.png)
